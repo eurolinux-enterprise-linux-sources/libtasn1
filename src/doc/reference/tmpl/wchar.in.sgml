@@ -1,0 +1,175 @@
+<!-- ##### SECTION Title ##### -->
+wchar.in
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO wint_t ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO WEOF ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### TYPEDEF rpl_mbstate_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO mbstate_t ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GNULIB_defined_mbstate_t ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION btowc ##### -->
+<para>
+
+</para>
+
+@c: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wctob ##### -->
+<para>
+
+</para>
+
+@wc: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mbsinit ##### -->
+<para>
+
+</para>
+
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mbrtowc ##### -->
+<para>
+
+</para>
+
+@pwc: 
+@s: 
+@n: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mbrlen ##### -->
+<para>
+
+</para>
+
+@s: 
+@n: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mbsrtowcs ##### -->
+<para>
+
+</para>
+
+@dest: 
+@srcp: 
+@len: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mbsnrtowcs ##### -->
+<para>
+
+</para>
+
+@dest: 
+@srcp: 
+@srclen: 
+@len: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wcrtomb ##### -->
+<para>
+
+</para>
+
+@s: 
+@wc: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wcsrtombs ##### -->
+<para>
+
+</para>
+
+@dest: 
+@srcp: 
+@len: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wcsnrtombs ##### -->
+<para>
+
+</para>
+
+@dest: 
+@srcp: 
+@srclen: 
+@len: 
+@ps: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wcwidth ##### -->
+<para>
+
+</para>
+
+@Param1: 
+@Returns: 
+
+

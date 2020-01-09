@@ -1,0 +1,67 @@
+@subheading asn1_parser2tree
+@anchor{asn1_parser2tree}
+@deftypefun {asn1_retCode} {asn1_parser2tree} (const char * @var{file_name}, ASN1_TYPE * @var{definitions}, char * @var{errorDescription})
+@var{file_name}: specify the path and the name of file that contains
+ASN.1 declarations.
+
+@var{definitions}: return the pointer to the structure created from
+"file_name" ASN.1 declarations.
+
+@var{errorDescription}: return the error description or an empty
+string if success.
+
+Creates the structures needed to manage the definitions included
+in *FILE_NAME file.
+
+@strong{Returns:} 
+@strong{ASN1_SUCCESS:} The file has a correct syntax and every identifier
+is known.
+
+@strong{ASN1_ELEMENT_NOT_EMPTY:} *POINTER not ASN1_TYPE_EMPTY.
+
+@strong{ASN1_FILE_NOT_FOUND:} An error occured while opening FILE_NAME.
+
+@strong{ASN1_SYNTAX_ERROR:} The syntax is not correct.
+
+@strong{ASN1_IDENTIFIER_NOT_FOUND:} In the file there is an identifier that
+is not defined.
+
+@strong{ASN1_NAME_TOO_LONG:} In the file there is an identifier whith more
+than ASN1_MAX_NAME_SIZE characters.
+@end deftypefun
+
+@subheading asn1_parser2array
+@anchor{asn1_parser2array}
+@deftypefun {int} {asn1_parser2array} (const char * @var{inputFileName}, const char * @var{outputFileName}, const char * @var{vectorName}, char * @var{errorDescription})
+@var{inputFileName}: specify the path and the name of file that
+contains ASN.1 declarations.
+
+@var{outputFileName}: specify the path and the name of file that will
+contain the C vector definition.
+
+@var{vectorName}: specify the name of the C vector.
+
+@var{errorDescription}: return the error description or an empty
+string if success.
+
+Creates a file containing a C vector to use to manage the
+definitions included in *INPUTFILENAME file. If *INPUTFILENAME is
+"/aa/bb/xx.yy" and OUTPUTFILENAME is NULL, the file created is
+"/aa/bb/xx_asn1_tab.c".  If VECTORNAME is NULL the vector name
+will be "xx_asn1_tab".
+
+@strong{Returns:} 
+@strong{ASN1_SUCCESS:} The file has a correct syntax and every identifier
+is known.
+
+@strong{ASN1_FILE_NOT_FOUND:} An error occured while opening FILE_NAME.
+
+@strong{ASN1_SYNTAX_ERROR:} The syntax is not correct.
+
+@strong{ASN1_IDENTIFIER_NOT_FOUND:} In the file there is an identifier that
+is not defined.
+
+@strong{ASN1_NAME_TOO_LONG:} In the file there is an identifier whith more
+than ASN1_MAX_NAME_SIZE characters.
+@end deftypefun
+

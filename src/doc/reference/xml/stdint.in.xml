@@ -1,0 +1,825 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libtasn1-stdintin">
+<refmeta>
+<refentrytitle role="top_of_page" id="libtasn1-stdintin.top_of_page">stdint.in</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBTASN1 Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>stdint.in</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="libtasn1-stdintin.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+typedef             <link linkend="gl-int8-t">gl_int8_t</link>;
+typedef             <link linkend="gl-uint8-t">gl_uint8_t</link>;
+#define             <link linkend="int8-t">int8_t</link>
+#define             <link linkend="uint8-t">uint8_t</link>
+typedef             <link linkend="gl-int16-t">gl_int16_t</link>;
+typedef             <link linkend="gl-uint16-t">gl_uint16_t</link>;
+#define             <link linkend="int16-t">int16_t</link>
+#define             <link linkend="uint16-t">uint16_t</link>
+typedef             <link linkend="gl-int32-t">gl_int32_t</link>;
+typedef             <link linkend="gl-uint32-t">gl_uint32_t</link>;
+#define             <link linkend="int32-t">int32_t</link>
+#define             <link linkend="uint32-t">uint32_t</link>
+typedef             <link linkend="gl-int64-t">gl_int64_t</link>;
+#define             <link linkend="int64-t">int64_t</link>
+#define             <link linkend="GL-INT64-T--CAPS">GL_INT64_T</link>
+typedef             <link linkend="gl-uint64-t">gl_uint64_t</link>;
+#define             <link linkend="uint64-t">uint64_t</link>
+#define             <link linkend="GL-UINT64-T--CAPS">GL_UINT64_T</link>
+#define             <link linkend="int-least8-t">int_least8_t</link>
+#define             <link linkend="uint-least8-t">uint_least8_t</link>
+#define             <link linkend="int-least16-t">int_least16_t</link>
+#define             <link linkend="uint-least16-t">uint_least16_t</link>
+#define             <link linkend="int-least32-t">int_least32_t</link>
+#define             <link linkend="uint-least32-t">uint_least32_t</link>
+#define             <link linkend="int-least64-t">int_least64_t</link>
+#define             <link linkend="uint-least64-t">uint_least64_t</link>
+typedef             <link linkend="gl-int-fast8-t">gl_int_fast8_t</link>;
+typedef             <link linkend="gl-uint-fast8-t">gl_uint_fast8_t</link>;
+typedef             <link linkend="gl-int-fast16-t">gl_int_fast16_t</link>;
+typedef             <link linkend="gl-uint-fast16-t">gl_uint_fast16_t</link>;
+typedef             <link linkend="gl-int-fast32-t">gl_int_fast32_t</link>;
+typedef             <link linkend="gl-uint-fast32-t">gl_uint_fast32_t</link>;
+#define             <link linkend="int-fast8-t">int_fast8_t</link>
+#define             <link linkend="uint-fast8-t">uint_fast8_t</link>
+#define             <link linkend="int-fast16-t">int_fast16_t</link>
+#define             <link linkend="uint-fast16-t">uint_fast16_t</link>
+#define             <link linkend="int-fast32-t">int_fast32_t</link>
+#define             <link linkend="uint-fast32-t">uint_fast32_t</link>
+#define             <link linkend="int-fast64-t">int_fast64_t</link>
+#define             <link linkend="uint-fast64-t">uint_fast64_t</link>
+typedef             <link linkend="gl-intptr-t">gl_intptr_t</link>;
+typedef             <link linkend="gl-uintptr-t">gl_uintptr_t</link>;
+#define             <link linkend="intptr-t">intptr_t</link>
+#define             <link linkend="uintptr-t">uintptr_t</link>
+typedef             <link linkend="gl-intmax-t">gl_intmax_t</link>;
+#define             <link linkend="intmax-t">intmax_t</link>
+typedef             <link linkend="gl-uintmax-t">gl_uintmax_t</link>;
+#define             <link linkend="uintmax-t">uintmax_t</link>
+typedef             <link linkend="verify-intmax-size">_verify_intmax_size</link>;
+#define             <link linkend="INT8-MIN--CAPS">INT8_MIN</link>
+#define             <link linkend="INT8-MAX--CAPS">INT8_MAX</link>
+#define             <link linkend="UINT8-MAX--CAPS">UINT8_MAX</link>
+#define             <link linkend="INT16-MIN--CAPS">INT16_MIN</link>
+#define             <link linkend="INT16-MAX--CAPS">INT16_MAX</link>
+#define             <link linkend="UINT16-MAX--CAPS">UINT16_MAX</link>
+#define             <link linkend="INT32-MIN--CAPS">INT32_MIN</link>
+#define             <link linkend="INT32-MAX--CAPS">INT32_MAX</link>
+#define             <link linkend="UINT32-MAX--CAPS">UINT32_MAX</link>
+#define             <link linkend="INT64-MIN--CAPS">INT64_MIN</link>
+#define             <link linkend="INT64-MAX--CAPS">INT64_MAX</link>
+#define             <link linkend="UINT64-MAX--CAPS">UINT64_MAX</link>
+#define             <link linkend="INT-LEAST8-MIN--CAPS">INT_LEAST8_MIN</link>
+#define             <link linkend="INT-LEAST8-MAX--CAPS">INT_LEAST8_MAX</link>
+#define             <link linkend="UINT-LEAST8-MAX--CAPS">UINT_LEAST8_MAX</link>
+#define             <link linkend="INT-LEAST16-MIN--CAPS">INT_LEAST16_MIN</link>
+#define             <link linkend="INT-LEAST16-MAX--CAPS">INT_LEAST16_MAX</link>
+#define             <link linkend="UINT-LEAST16-MAX--CAPS">UINT_LEAST16_MAX</link>
+#define             <link linkend="INT-LEAST32-MIN--CAPS">INT_LEAST32_MIN</link>
+#define             <link linkend="INT-LEAST32-MAX--CAPS">INT_LEAST32_MAX</link>
+#define             <link linkend="UINT-LEAST32-MAX--CAPS">UINT_LEAST32_MAX</link>
+#define             <link linkend="INT-LEAST64-MIN--CAPS">INT_LEAST64_MIN</link>
+#define             <link linkend="INT-LEAST64-MAX--CAPS">INT_LEAST64_MAX</link>
+#define             <link linkend="UINT-LEAST64-MAX--CAPS">UINT_LEAST64_MAX</link>
+#define             <link linkend="INT-FAST8-MIN--CAPS">INT_FAST8_MIN</link>
+#define             <link linkend="INT-FAST8-MAX--CAPS">INT_FAST8_MAX</link>
+#define             <link linkend="UINT-FAST8-MAX--CAPS">UINT_FAST8_MAX</link>
+#define             <link linkend="INT-FAST16-MIN--CAPS">INT_FAST16_MIN</link>
+#define             <link linkend="INT-FAST16-MAX--CAPS">INT_FAST16_MAX</link>
+#define             <link linkend="UINT-FAST16-MAX--CAPS">UINT_FAST16_MAX</link>
+#define             <link linkend="INT-FAST32-MIN--CAPS">INT_FAST32_MIN</link>
+#define             <link linkend="INT-FAST32-MAX--CAPS">INT_FAST32_MAX</link>
+#define             <link linkend="UINT-FAST32-MAX--CAPS">UINT_FAST32_MAX</link>
+#define             <link linkend="INT-FAST64-MIN--CAPS">INT_FAST64_MIN</link>
+#define             <link linkend="INT-FAST64-MAX--CAPS">INT_FAST64_MAX</link>
+#define             <link linkend="UINT-FAST64-MAX--CAPS">UINT_FAST64_MAX</link>
+#define             <link linkend="INTPTR-MIN--CAPS">INTPTR_MIN</link>
+#define             <link linkend="INTPTR-MAX--CAPS">INTPTR_MAX</link>
+#define             <link linkend="UINTPTR-MAX--CAPS">UINTPTR_MAX</link>
+#define             <link linkend="INTMAX-MIN--CAPS">INTMAX_MIN</link>
+#define             <link linkend="INTMAX-MAX--CAPS">INTMAX_MAX</link>
+#define             <link linkend="UINTMAX-MAX--CAPS">UINTMAX_MAX</link>
+#define             <link linkend="PTRDIFF-MIN--CAPS">PTRDIFF_MIN</link>
+#define             <link linkend="PTRDIFF-MAX--CAPS">PTRDIFF_MAX</link>
+#define             <link linkend="SIG-ATOMIC-MIN--CAPS">SIG_ATOMIC_MIN</link>
+#define             <link linkend="SIG-ATOMIC-MAX--CAPS">SIG_ATOMIC_MAX</link>
+#define             <link linkend="SIZE-MAX--CAPS">SIZE_MAX</link>
+#define             <link linkend="WCHAR-MIN--CAPS">WCHAR_MIN</link>
+#define             <link linkend="WCHAR-MAX--CAPS">WCHAR_MAX</link>
+#define             <link linkend="WINT-MIN--CAPS">WINT_MIN</link>
+#define             <link linkend="WINT-MAX--CAPS">WINT_MAX</link>
+#define             <link linkend="INT8-C--CAPS">INT8_C</link>                              (x)
+#define             <link linkend="UINT8-C--CAPS">UINT8_C</link>                             (x)
+#define             <link linkend="INT16-C--CAPS">INT16_C</link>                             (x)
+#define             <link linkend="UINT16-C--CAPS">UINT16_C</link>                            (x)
+#define             <link linkend="INT32-C--CAPS">INT32_C</link>                             (x)
+#define             <link linkend="UINT32-C--CAPS">UINT32_C</link>                            (x)
+#define             <link linkend="INT64-C--CAPS">INT64_C</link>                             (x)
+#define             <link linkend="UINT64-C--CAPS">UINT64_C</link>                            (x)
+#define             <link linkend="INTMAX-C--CAPS">INTMAX_C</link>                            (x)
+#define             <link linkend="UINTMAX-C--CAPS">UINTMAX_C</link>                           (x)
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libtasn1-stdintin.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libtasn1-stdintin.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="gl-int8-t" role="typedef">
+<title>gl_int8_t</title>
+<indexterm zone="gl-int8-t"><primary sortas="gl_int8_t">gl_int8_t</primary></indexterm><programlisting>typedef signed char gl_int8_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint8-t" role="typedef">
+<title>gl_uint8_t</title>
+<indexterm zone="gl-uint8-t"><primary sortas="gl_uint8_t">gl_uint8_t</primary></indexterm><programlisting>typedef unsigned char gl_uint8_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int8-t" role="macro">
+<title>int8_t</title>
+<indexterm zone="int8-t"><primary sortas="int8_t">int8_t</primary></indexterm><programlisting>#define int8_t gl_int8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint8-t" role="macro">
+<title>uint8_t</title>
+<indexterm zone="uint8-t"><primary sortas="uint8_t">uint8_t</primary></indexterm><programlisting>#define uint8_t gl_uint8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int16-t" role="typedef">
+<title>gl_int16_t</title>
+<indexterm zone="gl-int16-t"><primary sortas="gl_int16_t">gl_int16_t</primary></indexterm><programlisting>typedef short int gl_int16_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint16-t" role="typedef">
+<title>gl_uint16_t</title>
+<indexterm zone="gl-uint16-t"><primary sortas="gl_uint16_t">gl_uint16_t</primary></indexterm><programlisting>typedef unsigned short int gl_uint16_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int16-t" role="macro">
+<title>int16_t</title>
+<indexterm zone="int16-t"><primary sortas="int16_t">int16_t</primary></indexterm><programlisting>#define int16_t gl_int16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint16-t" role="macro">
+<title>uint16_t</title>
+<indexterm zone="uint16-t"><primary sortas="uint16_t">uint16_t</primary></indexterm><programlisting>#define uint16_t gl_uint16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int32-t" role="typedef">
+<title>gl_int32_t</title>
+<indexterm zone="gl-int32-t"><primary sortas="gl_int32_t">gl_int32_t</primary></indexterm><programlisting>typedef int gl_int32_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint32-t" role="typedef">
+<title>gl_uint32_t</title>
+<indexterm zone="gl-uint32-t"><primary sortas="gl_uint32_t">gl_uint32_t</primary></indexterm><programlisting>typedef unsigned int gl_uint32_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int32-t" role="macro">
+<title>int32_t</title>
+<indexterm zone="int32-t"><primary sortas="int32_t">int32_t</primary></indexterm><programlisting>#define int32_t gl_int32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint32-t" role="macro">
+<title>uint32_t</title>
+<indexterm zone="uint32-t"><primary sortas="uint32_t">uint32_t</primary></indexterm><programlisting>#define uint32_t gl_uint32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int64-t" role="typedef">
+<title>gl_int64_t</title>
+<indexterm zone="gl-int64-t"><primary sortas="gl_int64_t">gl_int64_t</primary></indexterm><para>
+</para></refsect2>
+<refsect2 id="int64-t" role="macro">
+<title>int64_t</title>
+<indexterm zone="int64-t"><primary sortas="int64_t">int64_t</primary></indexterm><programlisting>#define             int64_t</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="GL-INT64-T--CAPS" role="macro">
+<title>GL_INT64_T</title>
+<indexterm zone="GL-INT64-T--CAPS"><primary sortas="GL_INT64_T">GL_INT64_T</primary></indexterm><programlisting>#define             GL_INT64_T</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint64-t" role="typedef">
+<title>gl_uint64_t</title>
+<indexterm zone="gl-uint64-t"><primary sortas="gl_uint64_t">gl_uint64_t</primary></indexterm><para>
+</para></refsect2>
+<refsect2 id="uint64-t" role="macro">
+<title>uint64_t</title>
+<indexterm zone="uint64-t"><primary sortas="uint64_t">uint64_t</primary></indexterm><programlisting>#define             uint64_t</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="GL-UINT64-T--CAPS" role="macro">
+<title>GL_UINT64_T</title>
+<indexterm zone="GL-UINT64-T--CAPS"><primary sortas="GL_UINT64_T">GL_UINT64_T</primary></indexterm><programlisting>#define             GL_UINT64_T</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-least8-t" role="macro">
+<title>int_least8_t</title>
+<indexterm zone="int-least8-t"><primary sortas="int_least8_t">int_least8_t</primary></indexterm><programlisting>#define int_least8_t int8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-least8-t" role="macro">
+<title>uint_least8_t</title>
+<indexterm zone="uint-least8-t"><primary sortas="uint_least8_t">uint_least8_t</primary></indexterm><programlisting>#define uint_least8_t uint8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-least16-t" role="macro">
+<title>int_least16_t</title>
+<indexterm zone="int-least16-t"><primary sortas="int_least16_t">int_least16_t</primary></indexterm><programlisting>#define int_least16_t int16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-least16-t" role="macro">
+<title>uint_least16_t</title>
+<indexterm zone="uint-least16-t"><primary sortas="uint_least16_t">uint_least16_t</primary></indexterm><programlisting>#define uint_least16_t uint16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-least32-t" role="macro">
+<title>int_least32_t</title>
+<indexterm zone="int-least32-t"><primary sortas="int_least32_t">int_least32_t</primary></indexterm><programlisting>#define int_least32_t int32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-least32-t" role="macro">
+<title>uint_least32_t</title>
+<indexterm zone="uint-least32-t"><primary sortas="uint_least32_t">uint_least32_t</primary></indexterm><programlisting>#define uint_least32_t uint32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-least64-t" role="macro">
+<title>int_least64_t</title>
+<indexterm zone="int-least64-t"><primary sortas="int_least64_t">int_least64_t</primary></indexterm><programlisting># define int_least64_t int64_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-least64-t" role="macro">
+<title>uint_least64_t</title>
+<indexterm zone="uint-least64-t"><primary sortas="uint_least64_t">uint_least64_t</primary></indexterm><programlisting># define uint_least64_t uint64_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int-fast8-t" role="typedef">
+<title>gl_int_fast8_t</title>
+<indexterm zone="gl-int-fast8-t"><primary sortas="gl_int_fast8_t">gl_int_fast8_t</primary></indexterm><programlisting>typedef long int gl_int_fast8_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint-fast8-t" role="typedef">
+<title>gl_uint_fast8_t</title>
+<indexterm zone="gl-uint-fast8-t"><primary sortas="gl_uint_fast8_t">gl_uint_fast8_t</primary></indexterm><programlisting>typedef unsigned long int gl_uint_fast8_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int-fast16-t" role="typedef">
+<title>gl_int_fast16_t</title>
+<indexterm zone="gl-int-fast16-t"><primary sortas="gl_int_fast16_t">gl_int_fast16_t</primary></indexterm><programlisting>typedef long int gl_int_fast16_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint-fast16-t" role="typedef">
+<title>gl_uint_fast16_t</title>
+<indexterm zone="gl-uint-fast16-t"><primary sortas="gl_uint_fast16_t">gl_uint_fast16_t</primary></indexterm><programlisting>typedef unsigned long int gl_uint_fast16_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-int-fast32-t" role="typedef">
+<title>gl_int_fast32_t</title>
+<indexterm zone="gl-int-fast32-t"><primary sortas="gl_int_fast32_t">gl_int_fast32_t</primary></indexterm><programlisting>typedef long int gl_int_fast32_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uint-fast32-t" role="typedef">
+<title>gl_uint_fast32_t</title>
+<indexterm zone="gl-uint-fast32-t"><primary sortas="gl_uint_fast32_t">gl_uint_fast32_t</primary></indexterm><programlisting>typedef unsigned long int gl_uint_fast32_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-fast8-t" role="macro">
+<title>int_fast8_t</title>
+<indexterm zone="int-fast8-t"><primary sortas="int_fast8_t">int_fast8_t</primary></indexterm><programlisting>#define int_fast8_t gl_int_fast8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-fast8-t" role="macro">
+<title>uint_fast8_t</title>
+<indexterm zone="uint-fast8-t"><primary sortas="uint_fast8_t">uint_fast8_t</primary></indexterm><programlisting>#define uint_fast8_t gl_uint_fast8_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-fast16-t" role="macro">
+<title>int_fast16_t</title>
+<indexterm zone="int-fast16-t"><primary sortas="int_fast16_t">int_fast16_t</primary></indexterm><programlisting>#define int_fast16_t gl_int_fast16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-fast16-t" role="macro">
+<title>uint_fast16_t</title>
+<indexterm zone="uint-fast16-t"><primary sortas="uint_fast16_t">uint_fast16_t</primary></indexterm><programlisting>#define uint_fast16_t gl_uint_fast16_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-fast32-t" role="macro">
+<title>int_fast32_t</title>
+<indexterm zone="int-fast32-t"><primary sortas="int_fast32_t">int_fast32_t</primary></indexterm><programlisting>#define int_fast32_t gl_int_fast32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-fast32-t" role="macro">
+<title>uint_fast32_t</title>
+<indexterm zone="uint-fast32-t"><primary sortas="uint_fast32_t">uint_fast32_t</primary></indexterm><programlisting>#define uint_fast32_t gl_uint_fast32_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="int-fast64-t" role="macro">
+<title>int_fast64_t</title>
+<indexterm zone="int-fast64-t"><primary sortas="int_fast64_t">int_fast64_t</primary></indexterm><programlisting># define int_fast64_t int64_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uint-fast64-t" role="macro">
+<title>uint_fast64_t</title>
+<indexterm zone="uint-fast64-t"><primary sortas="uint_fast64_t">uint_fast64_t</primary></indexterm><programlisting># define uint_fast64_t uint64_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-intptr-t" role="typedef">
+<title>gl_intptr_t</title>
+<indexterm zone="gl-intptr-t"><primary sortas="gl_intptr_t">gl_intptr_t</primary></indexterm><programlisting>typedef long int gl_intptr_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uintptr-t" role="typedef">
+<title>gl_uintptr_t</title>
+<indexterm zone="gl-uintptr-t"><primary sortas="gl_uintptr_t">gl_uintptr_t</primary></indexterm><programlisting>typedef unsigned long int gl_uintptr_t;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="intptr-t" role="macro">
+<title>intptr_t</title>
+<indexterm zone="intptr-t"><primary sortas="intptr_t">intptr_t</primary></indexterm><programlisting>#define intptr_t gl_intptr_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="uintptr-t" role="macro">
+<title>uintptr_t</title>
+<indexterm zone="uintptr-t"><primary sortas="uintptr_t">uintptr_t</primary></indexterm><programlisting>#define uintptr_t gl_uintptr_t
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-intmax-t" role="typedef">
+<title>gl_intmax_t</title>
+<indexterm zone="gl-intmax-t"><primary sortas="gl_intmax_t">gl_intmax_t</primary></indexterm><para>
+</para></refsect2>
+<refsect2 id="intmax-t" role="macro">
+<title>intmax_t</title>
+<indexterm zone="intmax-t"><primary sortas="intmax_t">intmax_t</primary></indexterm><programlisting>#define             intmax_t</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="gl-uintmax-t" role="typedef">
+<title>gl_uintmax_t</title>
+<indexterm zone="gl-uintmax-t"><primary sortas="gl_uintmax_t">gl_uintmax_t</primary></indexterm><para>
+</para></refsect2>
+<refsect2 id="uintmax-t" role="macro">
+<title>uintmax_t</title>
+<indexterm zone="uintmax-t"><primary sortas="uintmax_t">uintmax_t</primary></indexterm><programlisting>#define             uintmax_t</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="verify-intmax-size" role="typedef">
+<title>_verify_intmax_size</title>
+<indexterm zone="verify-intmax-size"><primary sortas="verify_intmax_size">_verify_intmax_size</primary></indexterm><programlisting>typedef int _verify_intmax_size[2 * (sizeof (intmax_t) == sizeof (uintmax_t)) - 1];
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT8-MIN--CAPS" role="macro">
+<title>INT8_MIN</title>
+<indexterm zone="INT8-MIN--CAPS"><primary sortas="INT8_MIN">INT8_MIN</primary></indexterm><programlisting>#define INT8_MIN  (~ INT8_MAX)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT8-MAX--CAPS" role="macro">
+<title>INT8_MAX</title>
+<indexterm zone="INT8-MAX--CAPS"><primary sortas="INT8_MAX">INT8_MAX</primary></indexterm><programlisting>#define INT8_MAX  127
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT8-MAX--CAPS" role="macro">
+<title>UINT8_MAX</title>
+<indexterm zone="UINT8-MAX--CAPS"><primary sortas="UINT8_MAX">UINT8_MAX</primary></indexterm><programlisting>#define UINT8_MAX  255
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT16-MIN--CAPS" role="macro">
+<title>INT16_MIN</title>
+<indexterm zone="INT16-MIN--CAPS"><primary sortas="INT16_MIN">INT16_MIN</primary></indexterm><programlisting>#define INT16_MIN  (~ INT16_MAX)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT16-MAX--CAPS" role="macro">
+<title>INT16_MAX</title>
+<indexterm zone="INT16-MAX--CAPS"><primary sortas="INT16_MAX">INT16_MAX</primary></indexterm><programlisting>#define INT16_MAX  32767
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT16-MAX--CAPS" role="macro">
+<title>UINT16_MAX</title>
+<indexterm zone="UINT16-MAX--CAPS"><primary sortas="UINT16_MAX">UINT16_MAX</primary></indexterm><programlisting>#define UINT16_MAX  65535
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT32-MIN--CAPS" role="macro">
+<title>INT32_MIN</title>
+<indexterm zone="INT32-MIN--CAPS"><primary sortas="INT32_MIN">INT32_MIN</primary></indexterm><programlisting>#define INT32_MIN  (~ INT32_MAX)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT32-MAX--CAPS" role="macro">
+<title>INT32_MAX</title>
+<indexterm zone="INT32-MAX--CAPS"><primary sortas="INT32_MAX">INT32_MAX</primary></indexterm><programlisting>#define INT32_MAX  2147483647
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT32-MAX--CAPS" role="macro">
+<title>UINT32_MAX</title>
+<indexterm zone="UINT32-MAX--CAPS"><primary sortas="UINT32_MAX">UINT32_MAX</primary></indexterm><programlisting>#define UINT32_MAX  4294967295U
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT64-MIN--CAPS" role="macro">
+<title>INT64_MIN</title>
+<indexterm zone="INT64-MIN--CAPS"><primary sortas="INT64_MIN">INT64_MIN</primary></indexterm><programlisting># define INT64_MIN  (- INTMAX_C (1) &lt;&lt; 63)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT64-MAX--CAPS" role="macro">
+<title>INT64_MAX</title>
+<indexterm zone="INT64-MAX--CAPS"><primary sortas="INT64_MAX">INT64_MAX</primary></indexterm><programlisting># define INT64_MAX  INTMAX_C (9223372036854775807)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT64-MAX--CAPS" role="macro">
+<title>UINT64_MAX</title>
+<indexterm zone="UINT64-MAX--CAPS"><primary sortas="UINT64_MAX">UINT64_MAX</primary></indexterm><programlisting># define UINT64_MAX  UINTMAX_C (18446744073709551615)
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST8-MIN--CAPS" role="macro">
+<title>INT_LEAST8_MIN</title>
+<indexterm zone="INT-LEAST8-MIN--CAPS"><primary sortas="INT_LEAST8_MIN">INT_LEAST8_MIN</primary></indexterm><programlisting>#define INT_LEAST8_MIN  INT8_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST8-MAX--CAPS" role="macro">
+<title>INT_LEAST8_MAX</title>
+<indexterm zone="INT-LEAST8-MAX--CAPS"><primary sortas="INT_LEAST8_MAX">INT_LEAST8_MAX</primary></indexterm><programlisting>#define INT_LEAST8_MAX  INT8_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-LEAST8-MAX--CAPS" role="macro">
+<title>UINT_LEAST8_MAX</title>
+<indexterm zone="UINT-LEAST8-MAX--CAPS"><primary sortas="UINT_LEAST8_MAX">UINT_LEAST8_MAX</primary></indexterm><programlisting>#define UINT_LEAST8_MAX  UINT8_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST16-MIN--CAPS" role="macro">
+<title>INT_LEAST16_MIN</title>
+<indexterm zone="INT-LEAST16-MIN--CAPS"><primary sortas="INT_LEAST16_MIN">INT_LEAST16_MIN</primary></indexterm><programlisting>#define INT_LEAST16_MIN  INT16_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST16-MAX--CAPS" role="macro">
+<title>INT_LEAST16_MAX</title>
+<indexterm zone="INT-LEAST16-MAX--CAPS"><primary sortas="INT_LEAST16_MAX">INT_LEAST16_MAX</primary></indexterm><programlisting>#define INT_LEAST16_MAX  INT16_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-LEAST16-MAX--CAPS" role="macro">
+<title>UINT_LEAST16_MAX</title>
+<indexterm zone="UINT-LEAST16-MAX--CAPS"><primary sortas="UINT_LEAST16_MAX">UINT_LEAST16_MAX</primary></indexterm><programlisting>#define UINT_LEAST16_MAX  UINT16_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST32-MIN--CAPS" role="macro">
+<title>INT_LEAST32_MIN</title>
+<indexterm zone="INT-LEAST32-MIN--CAPS"><primary sortas="INT_LEAST32_MIN">INT_LEAST32_MIN</primary></indexterm><programlisting>#define INT_LEAST32_MIN  INT32_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST32-MAX--CAPS" role="macro">
+<title>INT_LEAST32_MAX</title>
+<indexterm zone="INT-LEAST32-MAX--CAPS"><primary sortas="INT_LEAST32_MAX">INT_LEAST32_MAX</primary></indexterm><programlisting>#define INT_LEAST32_MAX  INT32_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-LEAST32-MAX--CAPS" role="macro">
+<title>UINT_LEAST32_MAX</title>
+<indexterm zone="UINT-LEAST32-MAX--CAPS"><primary sortas="UINT_LEAST32_MAX">UINT_LEAST32_MAX</primary></indexterm><programlisting>#define UINT_LEAST32_MAX  UINT32_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST64-MIN--CAPS" role="macro">
+<title>INT_LEAST64_MIN</title>
+<indexterm zone="INT-LEAST64-MIN--CAPS"><primary sortas="INT_LEAST64_MIN">INT_LEAST64_MIN</primary></indexterm><programlisting># define INT_LEAST64_MIN  INT64_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-LEAST64-MAX--CAPS" role="macro">
+<title>INT_LEAST64_MAX</title>
+<indexterm zone="INT-LEAST64-MAX--CAPS"><primary sortas="INT_LEAST64_MAX">INT_LEAST64_MAX</primary></indexterm><programlisting># define INT_LEAST64_MAX  INT64_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-LEAST64-MAX--CAPS" role="macro">
+<title>UINT_LEAST64_MAX</title>
+<indexterm zone="UINT-LEAST64-MAX--CAPS"><primary sortas="UINT_LEAST64_MAX">UINT_LEAST64_MAX</primary></indexterm><programlisting># define UINT_LEAST64_MAX  UINT64_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST8-MIN--CAPS" role="macro">
+<title>INT_FAST8_MIN</title>
+<indexterm zone="INT-FAST8-MIN--CAPS"><primary sortas="INT_FAST8_MIN">INT_FAST8_MIN</primary></indexterm><programlisting>#define INT_FAST8_MIN  LONG_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST8-MAX--CAPS" role="macro">
+<title>INT_FAST8_MAX</title>
+<indexterm zone="INT-FAST8-MAX--CAPS"><primary sortas="INT_FAST8_MAX">INT_FAST8_MAX</primary></indexterm><programlisting>#define INT_FAST8_MAX  LONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-FAST8-MAX--CAPS" role="macro">
+<title>UINT_FAST8_MAX</title>
+<indexterm zone="UINT-FAST8-MAX--CAPS"><primary sortas="UINT_FAST8_MAX">UINT_FAST8_MAX</primary></indexterm><programlisting>#define UINT_FAST8_MAX  ULONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST16-MIN--CAPS" role="macro">
+<title>INT_FAST16_MIN</title>
+<indexterm zone="INT-FAST16-MIN--CAPS"><primary sortas="INT_FAST16_MIN">INT_FAST16_MIN</primary></indexterm><programlisting>#define INT_FAST16_MIN  LONG_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST16-MAX--CAPS" role="macro">
+<title>INT_FAST16_MAX</title>
+<indexterm zone="INT-FAST16-MAX--CAPS"><primary sortas="INT_FAST16_MAX">INT_FAST16_MAX</primary></indexterm><programlisting>#define INT_FAST16_MAX  LONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-FAST16-MAX--CAPS" role="macro">
+<title>UINT_FAST16_MAX</title>
+<indexterm zone="UINT-FAST16-MAX--CAPS"><primary sortas="UINT_FAST16_MAX">UINT_FAST16_MAX</primary></indexterm><programlisting>#define UINT_FAST16_MAX  ULONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST32-MIN--CAPS" role="macro">
+<title>INT_FAST32_MIN</title>
+<indexterm zone="INT-FAST32-MIN--CAPS"><primary sortas="INT_FAST32_MIN">INT_FAST32_MIN</primary></indexterm><programlisting>#define INT_FAST32_MIN  LONG_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST32-MAX--CAPS" role="macro">
+<title>INT_FAST32_MAX</title>
+<indexterm zone="INT-FAST32-MAX--CAPS"><primary sortas="INT_FAST32_MAX">INT_FAST32_MAX</primary></indexterm><programlisting>#define INT_FAST32_MAX  LONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-FAST32-MAX--CAPS" role="macro">
+<title>UINT_FAST32_MAX</title>
+<indexterm zone="UINT-FAST32-MAX--CAPS"><primary sortas="UINT_FAST32_MAX">UINT_FAST32_MAX</primary></indexterm><programlisting>#define UINT_FAST32_MAX  ULONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST64-MIN--CAPS" role="macro">
+<title>INT_FAST64_MIN</title>
+<indexterm zone="INT-FAST64-MIN--CAPS"><primary sortas="INT_FAST64_MIN">INT_FAST64_MIN</primary></indexterm><programlisting># define INT_FAST64_MIN  INT64_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT-FAST64-MAX--CAPS" role="macro">
+<title>INT_FAST64_MAX</title>
+<indexterm zone="INT-FAST64-MAX--CAPS"><primary sortas="INT_FAST64_MAX">INT_FAST64_MAX</primary></indexterm><programlisting># define INT_FAST64_MAX  INT64_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINT-FAST64-MAX--CAPS" role="macro">
+<title>UINT_FAST64_MAX</title>
+<indexterm zone="UINT-FAST64-MAX--CAPS"><primary sortas="UINT_FAST64_MAX">UINT_FAST64_MAX</primary></indexterm><programlisting># define UINT_FAST64_MAX  UINT64_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INTPTR-MIN--CAPS" role="macro">
+<title>INTPTR_MIN</title>
+<indexterm zone="INTPTR-MIN--CAPS"><primary sortas="INTPTR_MIN">INTPTR_MIN</primary></indexterm><programlisting>#define INTPTR_MIN  LONG_MIN
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INTPTR-MAX--CAPS" role="macro">
+<title>INTPTR_MAX</title>
+<indexterm zone="INTPTR-MAX--CAPS"><primary sortas="INTPTR_MAX">INTPTR_MAX</primary></indexterm><programlisting>#define INTPTR_MAX  LONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINTPTR-MAX--CAPS" role="macro">
+<title>UINTPTR_MAX</title>
+<indexterm zone="UINTPTR-MAX--CAPS"><primary sortas="UINTPTR_MAX">UINTPTR_MAX</primary></indexterm><programlisting>#define UINTPTR_MAX  ULONG_MAX
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INTMAX-MIN--CAPS" role="macro">
+<title>INTMAX_MIN</title>
+<indexterm zone="INTMAX-MIN--CAPS"><primary sortas="INTMAX_MIN">INTMAX_MIN</primary></indexterm><programlisting>#define             INTMAX_MIN</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INTMAX-MAX--CAPS" role="macro">
+<title>INTMAX_MAX</title>
+<indexterm zone="INTMAX-MAX--CAPS"><primary sortas="INTMAX_MAX">INTMAX_MAX</primary></indexterm><programlisting>#define             INTMAX_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="UINTMAX-MAX--CAPS" role="macro">
+<title>UINTMAX_MAX</title>
+<indexterm zone="UINTMAX-MAX--CAPS"><primary sortas="UINTMAX_MAX">UINTMAX_MAX</primary></indexterm><programlisting>#define             UINTMAX_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="PTRDIFF-MIN--CAPS" role="macro">
+<title>PTRDIFF_MIN</title>
+<indexterm zone="PTRDIFF-MIN--CAPS"><primary sortas="PTRDIFF_MIN">PTRDIFF_MIN</primary></indexterm><programlisting>#define             PTRDIFF_MIN</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="PTRDIFF-MAX--CAPS" role="macro">
+<title>PTRDIFF_MAX</title>
+<indexterm zone="PTRDIFF-MAX--CAPS"><primary sortas="PTRDIFF_MAX">PTRDIFF_MAX</primary></indexterm><programlisting>#define             PTRDIFF_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="SIG-ATOMIC-MIN--CAPS" role="macro">
+<title>SIG_ATOMIC_MIN</title>
+<indexterm zone="SIG-ATOMIC-MIN--CAPS"><primary sortas="SIG_ATOMIC_MIN">SIG_ATOMIC_MIN</primary></indexterm><programlisting>#define             SIG_ATOMIC_MIN</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="SIG-ATOMIC-MAX--CAPS" role="macro">
+<title>SIG_ATOMIC_MAX</title>
+<indexterm zone="SIG-ATOMIC-MAX--CAPS"><primary sortas="SIG_ATOMIC_MAX">SIG_ATOMIC_MAX</primary></indexterm><programlisting>#define             SIG_ATOMIC_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="SIZE-MAX--CAPS" role="macro">
+<title>SIZE_MAX</title>
+<indexterm zone="SIZE-MAX--CAPS"><primary sortas="SIZE_MAX">SIZE_MAX</primary></indexterm><programlisting>#define             SIZE_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="WCHAR-MIN--CAPS" role="macro">
+<title>WCHAR_MIN</title>
+<indexterm zone="WCHAR-MIN--CAPS"><primary sortas="WCHAR_MIN">WCHAR_MIN</primary></indexterm><programlisting>#define             WCHAR_MIN</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="WCHAR-MAX--CAPS" role="macro">
+<title>WCHAR_MAX</title>
+<indexterm zone="WCHAR-MAX--CAPS"><primary sortas="WCHAR_MAX">WCHAR_MAX</primary></indexterm><programlisting>#define             WCHAR_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="WINT-MIN--CAPS" role="macro">
+<title>WINT_MIN</title>
+<indexterm zone="WINT-MIN--CAPS"><primary sortas="WINT_MIN">WINT_MIN</primary></indexterm><programlisting>#define             WINT_MIN</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="WINT-MAX--CAPS" role="macro">
+<title>WINT_MAX</title>
+<indexterm zone="WINT-MAX--CAPS"><primary sortas="WINT_MAX">WINT_MAX</primary></indexterm><programlisting>#define             WINT_MAX</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="INT8-C--CAPS" role="macro">
+<title>INT8_C()</title>
+<indexterm zone="INT8-C--CAPS"><primary sortas="INT8_C">INT8_C</primary></indexterm><programlisting>#define INT8_C(x) x
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="UINT8-C--CAPS" role="macro">
+<title>UINT8_C()</title>
+<indexterm zone="UINT8-C--CAPS"><primary sortas="UINT8_C">UINT8_C</primary></indexterm><programlisting>#define UINT8_C(x) x
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="INT16-C--CAPS" role="macro">
+<title>INT16_C()</title>
+<indexterm zone="INT16-C--CAPS"><primary sortas="INT16_C">INT16_C</primary></indexterm><programlisting>#define INT16_C(x) x
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="UINT16-C--CAPS" role="macro">
+<title>UINT16_C()</title>
+<indexterm zone="UINT16-C--CAPS"><primary sortas="UINT16_C">UINT16_C</primary></indexterm><programlisting>#define UINT16_C(x) x
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="INT32-C--CAPS" role="macro">
+<title>INT32_C()</title>
+<indexterm zone="INT32-C--CAPS"><primary sortas="INT32_C">INT32_C</primary></indexterm><programlisting>#define INT32_C(x) x
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="UINT32-C--CAPS" role="macro">
+<title>UINT32_C()</title>
+<indexterm zone="UINT32-C--CAPS"><primary sortas="UINT32_C">UINT32_C</primary></indexterm><programlisting>#define UINT32_C(x) x ## U
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="INT64-C--CAPS" role="macro">
+<title>INT64_C()</title>
+<indexterm zone="INT64-C--CAPS"><primary sortas="INT64_C">INT64_C</primary></indexterm><programlisting>#define             INT64_C(x)</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="UINT64-C--CAPS" role="macro">
+<title>UINT64_C()</title>
+<indexterm zone="UINT64-C--CAPS"><primary sortas="UINT64_C">UINT64_C</primary></indexterm><programlisting>#define             UINT64_C(x)</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="INTMAX-C--CAPS" role="macro">
+<title>INTMAX_C()</title>
+<indexterm zone="INTMAX-C--CAPS"><primary sortas="INTMAX_C">INTMAX_C</primary></indexterm><programlisting>#define             INTMAX_C(x)</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="UINTMAX-C--CAPS" role="macro">
+<title>UINTMAX_C()</title>
+<indexterm zone="UINTMAX-C--CAPS"><primary sortas="UINTMAX_C">UINTMAX_C</primary></indexterm><programlisting>#define             UINTMAX_C(x)</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>
