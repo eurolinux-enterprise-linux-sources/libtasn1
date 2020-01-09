@@ -1,7 +1,9 @@
+%{!?release_func:%global release_func() %1%{?dist}}
+
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	2.3
-Release: 	3%{?dist}.1
+Release: 	%release_func 6
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+
 License: 	GPLv3+ and LGPLv2+
@@ -11,6 +13,8 @@ Source0:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz
 Source1:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz.sig
 Patch1:		libtasn1-2.4-rpath.patch
 Patch2:		libtasn1-2.3-cve-2012-1569.patch
+Patch3:		libtasn1-2.3-precise-length-checks.patch
+Patch4:		libtasn1-2.3-null-checks.patch
 BuildRoot:	%_tmppath/%name-%version-%release-buildroot
 BuildRequires:	bison, pkgconfig
 %ifarch %ix86 x86_64 ppc ppc64
@@ -58,6 +62,8 @@ This package contains tools using the libtasn library.
 
 %patch1 -p1 -b .rpath
 %patch2 -p1 -b .length-check
+%patch3 -p1 -b .length-check2
+%patch4 -p1 -b .null-check
 
 %build
 %configure --disable-static
@@ -114,7 +120,13 @@ test "$1" = 0 -a -f %_infodir/%name.info.gz && \
 
 
 %changelog
-* Thu Mar 22 2012 Tomas Mraz <tmraz@redhat.com> - 2.3-3.1
+* Fri May 30 2014 Nikos Mavrogiannopoulos <nmav@redhat.com> - 2.3-6
+- added check for null pointer (#1102336)
+
+* Mon May 26 2014 Nikos Mavrogiannopoulos <nmav@redhat.com> - 2.3-5
+- fix various DER decoding issues (#1102336)
+
+* Wed Mar 21 2012 Tomas Mraz <tmraz@redhat.com> - 2.3-4
 - fix CVE-2012-1569 - missing length check when decoding DER lengths (#804920)
 
 * Thu Jan 28 2010 Tomas Mraz <tmraz@redhat.com> - 2.3-3
