@@ -1,9 +1,7 @@
-%{!?release_func:%global release_func() %1%{?dist}}
-
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	2.3
-Release: 	%release_func 3
+Release: 	3%{?dist}.1
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+
 License: 	GPLv3+ and LGPLv2+
@@ -12,6 +10,7 @@ URL:		http://www.gnu.org/software/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz
 Source1:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz.sig
 Patch1:		libtasn1-2.4-rpath.patch
+Patch2:		libtasn1-2.3-cve-2012-1569.patch
 BuildRoot:	%_tmppath/%name-%version-%release-buildroot
 BuildRequires:	bison, pkgconfig
 %ifarch %ix86 x86_64 ppc ppc64
@@ -58,6 +57,7 @@ This package contains tools using the libtasn library.
 %setup -q
 
 %patch1 -p1 -b .rpath
+%patch2 -p1 -b .length-check
 
 %build
 %configure --disable-static
@@ -114,6 +114,9 @@ test "$1" = 0 -a -f %_infodir/%name.info.gz && \
 
 
 %changelog
+* Thu Mar 22 2012 Tomas Mraz <tmraz@redhat.com> - 2.3-3.1
+- fix CVE-2012-1569 - missing length check when decoding DER lengths (#804920)
+
 * Thu Jan 28 2010 Tomas Mraz <tmraz@redhat.com> - 2.3-3
 - drop superfluous rpath
 
