@@ -11,7 +11,7 @@ Extract a length field from DER data.
 
 @strong{Returns:} Return the decoded length value, or -1 on indefinite
 length, or -2 when the value was too big to fit in a int, or -4
-when the decoded length value plus @code{len} would exceed @code{der_len}.
+when the decoded length value plus  @code{len} would exceed  @code{der_len} .
 @end deftypefun
 
 @subheading asn1_get_tag_der
@@ -29,7 +29,7 @@ when the decoded length value plus @code{len} would exceed @code{der_len}.
 
 Decode the class and TAG from DER code.
 
-@strong{Returns:} Returns @code{ASN1_SUCCESS} on success, or an error.
+@strong{Returns:} Returns @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 
 @subheading asn1_get_length_ber
@@ -42,7 +42,7 @@ Decode the class and TAG from DER code.
 @var{len}: Output variable containing the length of the BER length field.
 
 Extract a length field from BER data.  The difference to
-@code{asn1_get_length_der()} is that this function will return a length
+@code{asn1_get_length_der()}  is that this function will return a length
 even if the value has indefinite encoding.
 
 @strong{Returns:} Return the decoded length value, or negative value when
@@ -68,7 +68,7 @@ the value was too big.
 
 Extract an OCTET SEQUENCE from DER data.
 
-@strong{Returns:} Returns @code{ASN1_SUCCESS} on success, or an error.
+@strong{Returns:} Returns @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 
 @subheading asn1_get_bit_der
@@ -88,31 +88,61 @@ Extract an OCTET SEQUENCE from DER data.
 
 Extract a BIT SEQUENCE from DER data.
 
-@strong{Returns:} Return @code{ASN1_SUCCESS} on success, or an error.
+@strong{Returns:} Return @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 
-@subheading asn1_der_decoding
-@anchor{asn1_der_decoding}
-@deftypefun {int} {asn1_der_decoding} (asn1_node * @var{element}, const void * @var{ider}, int @var{len}, char * @var{errorDescription})
+@subheading asn1_der_decoding2
+@anchor{asn1_der_decoding2}
+@deftypefun {int} {asn1_der_decoding2} (asn1_node * @var{element}, const void * @var{ider}, int * @var{max_ider_len}, unsigned int @var{flags}, char * @var{errorDescription})
 @var{element}: pointer to an ASN1 structure.
 
 @var{ider}: vector that contains the DER encoding.
 
-@var{len}: number of bytes of *@code{ider}: @code{ider}[0]..@code{ider}[len-1].
+@var{max_ider_len}: pointer to an integer giving the information about the
+maximal number of bytes occupied by * @code{ider} . The real size of the DER
+encoding is returned through this pointer.
+
+@var{flags}: flags controlling the behaviour of the function.
 
 @var{errorDescription}: null-terminated string contains details when an
 error occurred.
 
-Fill the structure *@code{ELEMENT} with values of a DER encoding
-string. The structure must just be created with function
-@code{asn1_create_element()}.  If an error occurs during the decoding
-procedure, the *@code{ELEMENT} is deleted and set equal to
-@code{NULL}.
+Fill the structure * @code{element} with values of a DER encoding string. The
+structure must just be created with function @code{asn1_create_element()} .
 
-@strong{Returns:} @code{ASN1_SUCCESS} if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND}
-if @code{ELEMENT} is @code{NULL}, and @code{ASN1_TAG_ERROR} or
-@code{ASN1_DER_ERROR} if the der encoding doesn't match the structure
-name (*@code{ELEMENT} deleted).
+If @code{ASN1_DECODE_FLAG_ALLOW_PADDING}  flag is set then the function will ignore
+padding after the decoded DER data. Upon a successful return the value of
+* @code{max_ider_len} will be set to the number of bytes decoded.
+
+@strong{Returns:} @code{ASN1_SUCCESS}  if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if  @code{ELEMENT} is @code{NULL} , and @code{ASN1_TAG_ERROR}  or
+@code{ASN1_DER_ERROR}  if the der encoding doesn't match the structure
+name (* @code{ELEMENT} deleted).
+@end deftypefun
+
+@subheading asn1_der_decoding
+@anchor{asn1_der_decoding}
+@deftypefun {int} {asn1_der_decoding} (asn1_node * @var{element}, const void * @var{ider}, int @var{ider_len}, char * @var{errorDescription})
+@var{element}: pointer to an ASN1 structure.
+
+@var{ider}: vector that contains the DER encoding.
+
+@var{ider_len}: number of bytes of * @code{ider} :  @code{ider} [0].. @code{ider} [len-1].
+
+@var{errorDescription}: null-terminated string contains details when an
+error occurred.
+
+Fill the structure * @code{element} with values of a DER encoding
+string. The structure must just be created with function
+@code{asn1_create_element()} . 
+
+Note that the * @code{element} variable is provided as a pointer for
+historical reasons.
+
+@strong{Returns:} @code{ASN1_SUCCESS}  if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if  @code{ELEMENT} is @code{NULL} , and @code{ASN1_TAG_ERROR}  or
+@code{ASN1_DER_ERROR}  if the der encoding doesn't match the structure
+name (* @code{ELEMENT} deleted).
 @end deftypefun
 
 @subheading asn1_der_decoding_element
@@ -129,48 +159,54 @@ name (*@code{ELEMENT} deleted).
 @var{errorDescription}: null-terminated string contains details when an
 error occurred.
 
-Fill the element named @code{ELEMENTNAME} with values of a DER encoding
+Fill the element named  @code{ELEMENTNAME} with values of a DER encoding
 string.  The structure must just be created with function
-@code{asn1_create_element()}.  The DER vector must contain the encoding
-string of the whole @code{STRUCTURE}.  If an error occurs during the
-decoding procedure, the *@code{STRUCTURE} is deleted and set equal to
-@code{NULL}.
+@code{asn1_create_element()} .  The DER vector must contain the encoding
+string of the whole  @code{STRUCTURE} .  If an error occurs during the
+decoding procedure, the * @code{STRUCTURE} is deleted and set equal to
+@code{NULL} .
 
-@strong{Returns:} @code{ASN1_SUCCESS} if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND}
-if ELEMENT is @code{NULL} or @code{elementName} == NULL, and
-@code{ASN1_TAG_ERROR} or @code{ASN1_DER_ERROR} if the der encoding doesn't
-match the structure @code{structure} (*ELEMENT deleted).
+This function is deprecated and may just be an alias to asn1_der_decoding
+in future versions. Use @code{asn1_der_decoding()}  instead.
+
+@strong{Returns:} @code{ASN1_SUCCESS}  if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if ELEMENT is @code{NULL}  or  @code{elementName} == NULL, and
+@code{ASN1_TAG_ERROR}  or @code{ASN1_DER_ERROR}  if the der encoding doesn't
+match the structure  @code{structure} (*ELEMENT deleted).
 @end deftypefun
 
 @subheading asn1_der_decoding_startEnd
 @anchor{asn1_der_decoding_startEnd}
-@deftypefun {int} {asn1_der_decoding_startEnd} (asn1_node @var{element}, const void * @var{ider}, int @var{len}, const char * @var{name_element}, int * @var{start}, int * @var{end})
+@deftypefun {int} {asn1_der_decoding_startEnd} (asn1_node @var{element}, const void * @var{ider}, int @var{ider_len}, const char * @var{name_element}, int * @var{start}, int * @var{end})
 @var{element}: pointer to an ASN1 element
 
 @var{ider}: vector that contains the DER encoding.
 
-@var{len}: number of bytes of *@code{ider}: @code{ider}[0]..@code{ider}[len-1]
+@var{ider_len}: number of bytes of * @code{ider} :  @code{ider} [0].. @code{ider} [len-1]
 
 @var{name_element}: an element of NAME structure.
 
 @var{start}: the position of the first byte of NAME_ELEMENT decoding
-(@code{ider}[*start])
+( @code{ider} [*start])
 
 @var{end}: the position of the last byte of NAME_ELEMENT decoding
-(@code{ider}[*end])
+( @code{ider} [*end])
 
 Find the start and end point of an element in a DER encoding
 string. I mean that if you have a der encoding and you have already
-used the function @code{asn1_der_decoding()} to fill a structure, it may
+used the function @code{asn1_der_decoding()}  to fill a structure, it may
 happen that you want to find the piece of string concerning an
 element of the structure.
 
 One example is the sequence "tbsCertificate" inside an X509
 certificate.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND}
-if ELEMENT is @code{asn1_node} EMPTY or @code{name_element} is not a valid
-element, @code{ASN1_TAG_ERROR} or @code{ASN1_DER_ERROR} if the der encoding
+Note that since libtasn1 3.7 the  @code{ider} and  @code{ider_len} parameters
+can be omitted, if the element is already decoded using @code{asn1_der_decoding()} .
+
+@strong{Returns:} @code{ASN1_SUCCESS}  if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if ELEMENT is @code{asn1_node}  EMPTY or  @code{name_element} is not a valid
+element, @code{ASN1_TAG_ERROR}  or @code{ASN1_DER_ERROR}  if the der encoding
 doesn't match the structure ELEMENT.
 @end deftypefun
 
@@ -187,7 +223,7 @@ ANY must be defined by an OBJECT IDENTIFIER. The type used to
 expand the element ANY is the first one following the definition of
 the actual value of the OBJECT IDENTIFIER.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if Substitution OK, @code{ASN1_ERROR_TYPE_ANY} if
+@strong{Returns:} @code{ASN1_SUCCESS}  if Substitution OK, @code{ASN1_ERROR_TYPE_ANY}  if
 some "ANY DEFINED BY" element couldn't be expanded due to a
 problem in OBJECT_ID -> TYPE association, or other error codes
 depending on DER decoding.
@@ -206,13 +242,13 @@ depending on DER decoding.
 the type for expansion.
 
 Expands an "OCTET STRING" element of a structure created from a DER
-decoding process (the @code{asn1_der_decoding()} function).  The type used
+decoding process (the @code{asn1_der_decoding()}  function).  The type used
 for expansion is the first one following the definition of the
 actual value of the OBJECT IDENTIFIER indicated by OBJECTNAME.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if substitution OK, @code{ASN1_ELEMENT_NOT_FOUND}
-if @code{objectName} or @code{octetName} are not correct,
-@code{ASN1_VALUE_NOT_VALID} if it wasn't possible to find the type to
+@strong{Returns:} @code{ASN1_SUCCESS}  if substitution OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if  @code{objectName} or  @code{octetName} are not correct,
+@code{ASN1_VALUE_NOT_VALID}  if it wasn't possible to find the type to
 use for expansion, or other errors depending on DER decoding.
 @end deftypefun
 
@@ -230,8 +266,8 @@ use for expansion, or other errors depending on DER decoding.
 @var{str_len}: the length of the data
 
 Decodes a simple DER encoded type (e.g. a string, which is not constructed).
-The output is a pointer inside the @code{der}.
+The output is a pointer inside the  @code{der} .
 
-@strong{Returns:} @code{ASN1_SUCCESS} if successful or an error value.
+@strong{Returns:} @code{ASN1_SUCCESS}  if successful or an error value.
 @end deftypefun
 

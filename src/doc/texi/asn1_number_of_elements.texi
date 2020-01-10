@@ -10,7 +10,7 @@
 Counts the number of elements of a sub-structure called NAME with
 names equal to "?1","?2", ...
 
-@strong{Returns:} @code{ASN1_SUCCESS} if successful, @code{ASN1_ELEMENT_NOT_FOUND} if
-@code{name} is not known, @code{ASN1_GENERIC_ERROR} if pointer @code{num} is @code{NULL}.
+@strong{Returns:} @code{ASN1_SUCCESS}  if successful, @code{ASN1_ELEMENT_NOT_FOUND}  if
+ @code{name} is not known, @code{ASN1_GENERIC_ERROR}  if pointer  @code{num} is @code{NULL} .
 @end deftypefun
 

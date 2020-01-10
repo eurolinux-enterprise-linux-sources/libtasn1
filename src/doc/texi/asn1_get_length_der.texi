@@ -11,6 +11,6 @@ Extract a length field from DER data.
 
 @strong{Returns:} Return the decoded length value, or -1 on indefinite
 length, or -2 when the value was too big to fit in a int, or -4
-when the decoded length value plus @code{len} would exceed @code{der_len}.
+when the decoded length value plus  @code{len} would exceed  @code{der_len} .
 @end deftypefun
 

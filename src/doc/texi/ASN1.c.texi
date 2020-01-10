@@ -11,15 +11,15 @@ ASN.1 declarations.
 string if success.
 
 Function used to start the parse algorithm.  Creates the structures
-needed to manage the definitions included in @code{file} file.
+needed to manage the definitions included in  @code{file} file.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if the file has a correct syntax and every
-identifier is known, @code{ASN1_ELEMENT_NOT_EMPTY} if @code{definitions} not
-@code{NULL}, @code{ASN1_FILE_NOT_FOUND} if an error occured while
-opening @code{file}, @code{ASN1_SYNTAX_ERROR} if the syntax is not
-correct, @code{ASN1_IDENTIFIER_NOT_FOUND} if in the file there is an
-identifier that is not defined, @code{ASN1_NAME_TOO_LONG} if in the
-file there is an identifier whith more than @code{ASN1_MAX_NAME_SIZE}
+@strong{Returns:} @code{ASN1_SUCCESS}  if the file has a correct syntax and every
+identifier is known, @code{ASN1_ELEMENT_NOT_EMPTY}  if  @code{definitions} not
+@code{NULL} , @code{ASN1_FILE_NOT_FOUND}  if an error occured while
+opening  @code{file} , @code{ASN1_SYNTAX_ERROR}  if the syntax is not
+correct, @code{ASN1_IDENTIFIER_NOT_FOUND}  if in the file there is an
+identifier that is not defined, @code{ASN1_NAME_TOO_LONG}  if in the
+file there is an identifier whith more than @code{ASN1_MAX_NAME_SIZE} 
 characters.
 @end deftypefun
 
@@ -39,17 +39,17 @@ string if success.
 
 Function that generates a C structure from an ASN1 file.  Creates a
 file containing a C vector to use to manage the definitions
-included in @code{inputFileName} file. If @code{inputFileName} is
-"/aa/bb/xx.yy" and @code{outputFileName} is @code{NULL}, the file created is
-"/aa/bb/xx_asn1_tab.c".  If @code{vectorName} is @code{NULL} the vector name
+included in  @code{inputFileName} file. If  @code{inputFileName} is
+"/aa/bb/xx.yy" and  @code{outputFileName} is @code{NULL} , the file created is
+"/aa/bb/xx_asn1_tab.c".  If  @code{vectorName} is @code{NULL}  the vector name
 will be "xx_asn1_tab".
 
-@strong{Returns:} @code{ASN1_SUCCESS} if the file has a correct syntax and every
-identifier is known, @code{ASN1_FILE_NOT_FOUND} if an error occured
-while opening @code{inputFileName}, @code{ASN1_SYNTAX_ERROR} if the syntax is
-not correct, @code{ASN1_IDENTIFIER_NOT_FOUND} if in the file there is
-an identifier that is not defined, @code{ASN1_NAME_TOO_LONG} if in the
-file there is an identifier whith more than @code{ASN1_MAX_NAME_SIZE}
+@strong{Returns:} @code{ASN1_SUCCESS}  if the file has a correct syntax and every
+identifier is known, @code{ASN1_FILE_NOT_FOUND}  if an error occured
+while opening  @code{inputFileName} , @code{ASN1_SYNTAX_ERROR}  if the syntax is
+not correct, @code{ASN1_IDENTIFIER_NOT_FOUND}  if in the file there is
+an identifier that is not defined, @code{ASN1_NAME_TOO_LONG}  if in the
+file there is an identifier whith more than @code{ASN1_MAX_NAME_SIZE} 
 characters.
 @end deftypefun
 

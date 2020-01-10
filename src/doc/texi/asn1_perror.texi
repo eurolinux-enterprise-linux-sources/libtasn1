@@ -4,7 +4,7 @@
 @var{error}: is an error returned by a libtasn1 function.
 
 Prints a string to stderr with a description of an error.  This
-function is like @code{perror()}.  The only difference is that it accepts
+function is like @code{perror()} .  The only difference is that it accepts
 an error returned by a libtasn1 function.
 
 @strong{Since:} 1.6

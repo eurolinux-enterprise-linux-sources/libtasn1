@@ -8,10 +8,10 @@
 @var{name}: an element of the structure
 
 @var{mode}: specify how much of the structure to print, can be
-@code{ASN1_PRINT_NAME}, @code{ASN1_PRINT_NAME_TYPE},
-@code{ASN1_PRINT_NAME_TYPE_VALUE}, or @code{ASN1_PRINT_ALL}.
+@code{ASN1_PRINT_NAME} , @code{ASN1_PRINT_NAME_TYPE} ,
+@code{ASN1_PRINT_NAME_TYPE_VALUE} , or @code{ASN1_PRINT_ALL} .
 
-Prints on the @code{out} file descriptor the structure's tree starting
-from the @code{name} element inside the structure @code{structure}.
+Prints on the  @code{out} file descriptor the structure's tree starting
+from the  @code{name} element inside the structure  @code{structure} .
 @end deftypefun
 

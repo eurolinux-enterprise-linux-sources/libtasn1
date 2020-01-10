@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This file is part of LIBTASN1.
 #
@@ -21,7 +21,7 @@ if ENABLE_GTK_DOC
 SUBDIRS += reference
 endif
 
-EXTRA_DIST = gdoc TODO libtasn1.html libtasn1.ps libtasn1.pdf
+EXTRA_DIST = gdoc TODO libtasn1.html libtasn1.ps libtasn1.pdf stamp_docs
 
 info_TEXINFOS = libtasn1.texi
 libtasn1_TEXINFOS = fdl-1.3.texi texinfo.css $(gdoc_TEXINFOS)
@@ -77,6 +77,7 @@ gdoc_MANS += man/asn1_read_tag.3
 gdoc_MANS += man/asn1_read_node_value.3
 gdoc_MANS += man/asn1_array2tree.3
 gdoc_MANS += man/asn1_delete_structure.3
+gdoc_MANS += man/asn1_delete_structure2.3
 gdoc_MANS += man/asn1_delete_element.3
 gdoc_MANS += man/asn1_create_element.3
 gdoc_MANS += man/asn1_print_structure.3
@@ -122,6 +123,7 @@ gdoc_TEXINFOS += texi/asn1_read_tag.texi
 gdoc_TEXINFOS += texi/asn1_read_node_value.texi
 gdoc_TEXINFOS += texi/asn1_array2tree.texi
 gdoc_TEXINFOS += texi/asn1_delete_structure.texi
+gdoc_TEXINFOS += texi/asn1_delete_structure2.texi
 gdoc_TEXINFOS += texi/asn1_delete_element.texi
 gdoc_TEXINFOS += texi/asn1_create_element.texi
 gdoc_TEXINFOS += texi/asn1_print_structure.texi
@@ -132,18 +134,13 @@ gdoc_TEXINFOS += texi/asn1_parser2tree.texi
 gdoc_TEXINFOS += texi/asn1_parser2array.texi
 gdoc_TEXINFOS += texi/asn1_check_version.texi
 
-$(gdoc_MANS) $(gdoc_TEXINFOS):
-	make update-makefile
-	make Makefile
-	make doit
-
 GDOC_SRC = $(top_srcdir)/lib/decoding.c $(top_srcdir)/lib/errors.c	\
 	$(top_srcdir)/lib/parser_aux.c $(top_srcdir)/lib/coding.c	\
 	$(top_srcdir)/lib/element.c $(top_srcdir)/lib/gstr.c		\
 	$(top_srcdir)/lib/structure.c $(top_srcdir)/lib/ASN1.c		\
 	$(top_srcdir)/lib/version.c
 
-update-makefile:
+compare-makefile:
 	@MANS=""; \
 	TEXINFOS=""; \
 	for i in $(GDOC_SRC); do \
@@ -158,10 +155,16 @@ update-makefile:
 	grep -v -e '^gdoc_MANS += ' -e '^gdoc_TEXINFOS += ' Makefile.am | \
 		perl -p -e "s,^gdoc_MANS =,gdoc_MANS =$$MANS,;" | \
 		perl -p -e "s,^gdoc_TEXINFOS =,gdoc_TEXINFOS =$$TEXINFOS,;" \
-		> foo; \
-	mv foo Makefile.am
+		> tmp-$@;
+	diff -u $(srcdir)/Makefile.am tmp-$@
+	rm -f tmp-$@
 
-doit:
+$(gdoc_MANS) $(gdoc_TEXINFOS): stamp_docs
+
+clean-local:
+	-rm -f stamp_docs
+
+stamp_docs:
 	$(mkdir_p) man texi; \
 	for i in `$(srcdir)/gdoc -listfunc $(GDOC_SRC)`; do \
 		echo -n "Creating documentation for $$i... " && \
@@ -184,5 +187,6 @@ doit:
 		$(srcdir)/gdoc -texinfo $$i > texi/$$BASE.texi && \
 		echo "ok"; \
 	done
+	touch $@
 
-.PHONY: update-makefile doit
+.PHONY: compare-makefile

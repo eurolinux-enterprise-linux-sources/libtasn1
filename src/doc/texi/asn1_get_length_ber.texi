@@ -8,7 +8,7 @@
 @var{len}: Output variable containing the length of the BER length field.
 
 Extract a length field from BER data.  The difference to
-@code{asn1_get_length_der()} is that this function will return a length
+@code{asn1_get_length_der()}  is that this function will return a length
 even if the value has indefinite encoding.
 
 @strong{Returns:} Return the decoded length value, or negative value when

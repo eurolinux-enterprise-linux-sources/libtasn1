@@ -3,15 +3,15 @@
 @deftypefun {void} {asn1_length_der} (unsigned long int @var{len}, unsigned char * @var{der}, int * @var{der_len})
 @var{len}: value to convert.
 
-@var{der}: buffer to hold the returned encoding (may be @code{NULL}).
+@var{der}: buffer to hold the returned encoding (may be @code{NULL} ).
 
 @var{der_len}: number of meaningful bytes of ANS (der[0]..der[der_len-1]).
 
 Creates the DER encoding of the provided length value.
-The @code{der} buffer must have enough room for the output. The maximum
-length this function will encode is @code{ASN1_MAX_LENGTH_SIZE}.
+The  @code{der} buffer must have enough room for the output. The maximum
+length this function will encode is @code{ASN1_MAX_LENGTH_SIZE} .
 
-To know the size of the DER encoding use a @code{NULL} value for @code{der}.
+To know the size of the DER encoding use a @code{NULL}  value for  @code{der} .
 @end deftypefun
 
 @subheading asn1_octet_der
@@ -26,14 +26,14 @@ To know the size of the DER encoding use a @code{NULL} value for @code{der}.
 @var{der_len}: number of meaningful bytes of DER (der[0]..der[der_len-1]).
 
 Creates a length-value DER encoding for the input data.
-The DER encoding of the input data will be placed in the @code{der} variable.
+The DER encoding of the input data will be placed in the  @code{der} variable.
 
 Note that the OCTET STRING tag is not included in the output.
 
 This function does not return any value because it is expected
-that @code{der_len} will contain enough bytes to store the string
+that  @code{der_len} will contain enough bytes to store the string
 plus the DER encoding. The DER encoding size can be obtained using
-@code{asn1_length_der()}.
+@code{asn1_length_der()} .
 @end deftypefun
 
 @subheading asn1_encode_simple_der
@@ -47,16 +47,16 @@ plus the DER encoding. The DER encoding size can be obtained using
 
 @var{tl}: the encoded tag and length
 
-@var{tl_len}: the bytes of the @code{tl} field
+@var{tl_len}: the bytes of the  @code{tl} field
 
 Creates the DER encoding for various simple ASN.1 types like strings etc.
-It stores the tag and length in @code{tl}, which should have space for at least
-@code{ASN1_MAX_TL_SIZE} bytes. Initially @code{tl_len} should contain the size of @code{tl}.
+It stores the tag and length in  @code{tl} , which should have space for at least
+@code{ASN1_MAX_TL_SIZE}  bytes. Initially  @code{tl_len} should contain the size of  @code{tl} .
 
-The complete DER encoding should consist of the value in @code{tl} appended
-with the provided @code{str}.
+The complete DER encoding should consist of the value in  @code{tl} appended
+with the provided  @code{str} .
 
-@strong{Returns:} @code{ASN1_SUCCESS} if successful or an error value.
+@strong{Returns:} @code{ASN1_SUCCESS}  if successful or an error value.
 @end deftypefun
 
 @subheading asn1_bit_der
@@ -73,14 +73,14 @@ with the provided @code{str}.
 
 Creates a length-value DER encoding for the input data
 as it would have been for a BIT STRING.
-The DER encoded data will be copied in @code{der}.
+The DER encoded data will be copied in  @code{der} .
 
 Note that the BIT STRING tag is not included in the output.
 
 This function does not return any value because it is expected
-that @code{der_len} will contain enough bytes to store the string
+that  @code{der_len} will contain enough bytes to store the string
 plus the DER encoding. The DER encoding size can be obtained using
-@code{asn1_length_der()}.
+@code{asn1_length_der()} .
 @end deftypefun
 
 @subheading asn1_der_coding
@@ -94,16 +94,18 @@ inside *POINTER).
 @var{ider}: vector that will contain the DER encoding. DER must be a
 pointer to memory cells already allocated.
 
-@var{len}: number of bytes of *@code{ider}: @code{ider}[0]..@code{ider}[len-1], Initialy
+@var{len}: number of bytes of * @code{ider} :  @code{ider} [0].. @code{ider} [len-1], Initialy
 holds the sizeof of der vector.
+
+@var{ErrorDescription}: return the error description or an empty
+string if success.
 
 Creates the DER encoding for the NAME structure (inside *POINTER
 structure).
 
-@strong{Returns:} @code{ASN1_SUCCESS} if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND}
-if @code{name} is not a valid element, @code{ASN1_VALUE_NOT_FOUND} if there
-is an element without a value, @code{ASN1_MEM_ERROR} if the @code{ider}
-vector isn't big enough and in this case @code{len} will contain the
+@strong{Returns:} @code{ASN1_SUCCESS}  if DER encoding OK, @code{ASN1_ELEMENT_NOT_FOUND} 
+if  @code{name} is not a valid element, @code{ASN1_VALUE_NOT_FOUND}  if there
+is an element without a value, @code{ASN1_MEM_ERROR}  if the  @code{ider} vector isn't big enough and in this case  @code{len} will contain the
 length needed.
 @end deftypefun
 

@@ -11,7 +11,7 @@ ANY must be defined by an OBJECT IDENTIFIER. The type used to
 expand the element ANY is the first one following the definition of
 the actual value of the OBJECT IDENTIFIER.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if Substitution OK, @code{ASN1_ERROR_TYPE_ANY} if
+@strong{Returns:} @code{ASN1_SUCCESS}  if Substitution OK, @code{ASN1_ERROR_TYPE_ANY}  if
 some "ANY DEFINED BY" element couldn't be expanded due to a
 problem in OBJECT_ID -> TYPE association, or other error codes
 depending on DER decoding.

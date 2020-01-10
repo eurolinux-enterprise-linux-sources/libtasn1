@@ -15,6 +15,6 @@
 
 Extract an OCTET SEQUENCE from DER data.
 
-@strong{Returns:} Returns @code{ASN1_SUCCESS} on success, or an error.
+@strong{Returns:} Returns @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 

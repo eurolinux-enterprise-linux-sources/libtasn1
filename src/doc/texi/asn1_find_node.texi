@@ -5,11 +5,11 @@
 
 @var{name}: null terminated string with the element's name to find.
 
-Searches for an element called @code{name} starting from @code{pointer}.  The
+Searches for an element called  @code{name} starting from  @code{pointer} .  The
 name is composed by differents identifiers separated by dots.  When
-*@code{pointer} has a name, the first identifier must be the name of
-*@code{pointer}, otherwise it must be the name of one child of *@code{pointer}.
+* @code{pointer} has a name, the first identifier must be the name of
+* @code{pointer} , otherwise it must be the name of one child of * @code{pointer} .
 
-@strong{Returns:} the search result, or @code{NULL} if not found.
+@strong{Returns:} the search result, or @code{NULL}  if not found.
 @end deftypefun
 

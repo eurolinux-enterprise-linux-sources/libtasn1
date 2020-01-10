@@ -1,12 +1,40 @@
 GNU Libtasn1 NEWS                                     -*- outline -*-
 
+* Noteworthy changes in release 3.8 (released 2014-08-23) [stable]
+- corrected indefinite tag check in ANY constructions. That allows
+  the decoding of BER-encoded structures that contain indefinite
+  encoding within an ANY element.
+
+* Noteworthy changes in release 3.7 (released 2014-06-26) [stable]
+- Fixes in length calculation in _asn1_extract_der_octet().
+- Fixes in DER decoding.
+
+* Noteworthy changes in release 3.6 (released 2014-05-25) [stable]
+- Corrected an off-by-one error in ASN.1 DER tag decoding.
+- Several improvements and new safety checks on DER decoding;
+  issues found using Codenomicon TLS test suite.
+- Marked asn1_der_decoding_element() as deprecated. Use
+  asn1_der_decoding() instead.
+
+* Noteworthy changes in release 3.5 (released 2014-05-01) [stable]
+- Correctly handle decoding of recursive CHOICE options.
+- Allow deleting elements of SET OF. Patch by Jean-Louis Thekekara.
+- Several small bug fixes found by coverity.
+- Code improvements contributed by Kurt Roeckx.
+
+* Noteworthy changes in release 3.4 (released 2013-11-25) [stable]
+- Added asn1_delete_structure2() which allows zeroizing the contents
+  of all values in the structure prior to deinitialization.
+- The parser accepts negative numbers in an INTEGER range (but
+  still does no enforce them).
+
 * Noteworthy changes in release 3.3 (released 2013-03-23) [stable]
 - More precise overflow checks using gnulib's intprops module.
 - Updates to compile in Android systems.
 
 * Noteworthy changes in release 3.2 (released 2012-11-30) [stable]
 - Corrected buffer overflow in the error reporting of the parser (reported
-by Andreas Metzler).
+  by Andreas Metzler).
 
 * Noteworthy changes in release 3.1 (released 2012-11-24) [stable]
 - Completed rename of types:
@@ -393,7 +421,7 @@ by Andreas Metzler).
 - Initial release
 
 ----------------------------------------------------------------------
-Copyright (C) 2002-2013 Free Software Foundation, Inc.
+Copyright (C) 2002-2014 Free Software Foundation, Inc.
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
 notice and this notice are preserved.

@@ -12,13 +12,13 @@
 
 Creates a length-value DER encoding for the input data
 as it would have been for a BIT STRING.
-The DER encoded data will be copied in @code{der}.
+The DER encoded data will be copied in  @code{der} .
 
 Note that the BIT STRING tag is not included in the output.
 
 This function does not return any value because it is expected
-that @code{der_len} will contain enough bytes to store the string
+that  @code{der_len} will contain enough bytes to store the string
 plus the DER encoding. The DER encoding size can be obtained using
-@code{asn1_length_der()}.
+@code{asn1_length_der()} .
 @end deftypefun
 

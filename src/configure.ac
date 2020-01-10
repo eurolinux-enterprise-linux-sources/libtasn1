@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This file is part of LIBTASN1.
 #
@@ -17,20 +17,20 @@ dnl Process this file with autoconf to produce a configure script.
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.61])
-AC_INIT([GNU Libtasn1],[3.3],[help-libtasn1@gnu.org])
+AC_INIT([GNU Libtasn1],[3.8],[help-libtasn1@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
-AM_INIT_AUTOMAKE([1.10 -Wall -Werror -Wno-override])
+AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
 AM_SILENT_RULES([yes])
 
 # Library code modified:                              REVISION++
 # Interfaces changed/added/removed:   CURRENT++       REVISION=0
 # Interfaces added:                             AGE++
 # Interfaces removed:                           AGE=0
-AC_SUBST(LT_CURRENT, 7)
-AC_SUBST(LT_REVISION, 1)
-AC_SUBST(LT_AGE, 1)
+AC_SUBST(LT_CURRENT, 8)
+AC_SUBST(LT_REVISION, 3)
+AC_SUBST(LT_AGE, 2)
 
 AC_PROG_CC
 gl_EARLY

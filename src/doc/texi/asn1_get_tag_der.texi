@@ -13,6 +13,6 @@
 
 Decode the class and TAG from DER code.
 
-@strong{Returns:} Returns @code{ASN1_SUCCESS} on success, or an error.
+@strong{Returns:} Returns @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 

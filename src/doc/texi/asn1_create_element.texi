@@ -8,12 +8,12 @@ inside p_structure).
 
 @var{element}: pointer to the structure created.
 
-Creates a structure of type @code{source_name}.  Example using
+Creates a structure of type  @code{source_name} .  Example using
 "pkix.asn":
 
 rc = asn1_create_element(cert_def, "PKIX1.Certificate", certptr);
 
-@strong{Returns:} @code{ASN1_SUCCESS} if creation OK, @code{ASN1_ELEMENT_NOT_FOUND} if
-@code{source_name} is not known.
+@strong{Returns:} @code{ASN1_SUCCESS}  if creation OK, @code{ASN1_ELEMENT_NOT_FOUND}  if
+ @code{source_name} is not known.
 @end deftypefun
 

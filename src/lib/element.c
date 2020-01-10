@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 Free Software Foundation, Inc.
+ * Copyright (C) 2000-2014 Free Software Foundation, Inc.
  *
  * This file is part of LIBTASN1.
  *
@@ -112,8 +112,11 @@ _asn1_convert_integer (const unsigned char *value, unsigned char *value_out,
     /* VALUE_OUT is too short to contain the value conversion */
     return ASN1_MEM_ERROR;
 
-  for (k2 = k; k2 < SIZEOF_UNSIGNED_LONG_INT; k2++)
-    value_out[k2 - k] = val[k2];
+  if (value_out != NULL)
+    {
+      for (k2 = k; k2 < SIZEOF_UNSIGNED_LONG_INT; k2++)
+        value_out[k2 - k] = val[k2];
+    }
 
 #if 0
   printf ("_asn1_convert_integer: valueIn=%s, lenOut=%d", value, *len);
@@ -130,7 +133,7 @@ int
 _asn1_append_sequence_set (asn1_node node)
 {
   asn1_node p, p2;
-  char temp[10];
+  char temp[LTOSTR_MAX_SIZE];
   long n;
 
   if (!node || !(node->down))
@@ -290,7 +293,7 @@ asn1_write_value (asn1_node node_root, const char *name,
 
   type = type_field (node->type);
 
-  if ((type == ASN1_ETYPE_SEQUENCE_OF) && (value == NULL) && (len == 0))
+  if ((type == ASN1_ETYPE_SEQUENCE_OF || type == ASN1_ETYPE_SET_OF) && (value == NULL) && (len == 0))
     {
       p = node->down;
       while ((type_field (p->type) == ASN1_ETYPE_TAG)
@@ -301,6 +304,12 @@ asn1_write_value (asn1_node node_root, const char *name,
 	asn1_delete_structure (&p->right);
 
       return ASN1_SUCCESS;
+    }
+
+  /* Don't allow element deletion for other types */
+  if (value == NULL)
+    {
+      return ASN1_VALUE_NOT_VALID;
     }
 
   switch (type)
@@ -615,16 +624,19 @@ asn1_write_value (asn1_node node_root, const char *name,
 	if (ptr_size < data_size) { \
 		return ASN1_MEM_ERROR; \
 	} else { \
-		memcpy( ptr, data, data_size); \
+		if (ptr && data_size > 0) \
+		  memcpy (ptr, data, data_size); \
 	}
 
 #define PUT_STR_VALUE( ptr, ptr_size, data) \
-	*len = _asn1_strlen(data) + 1; \
+	*len = _asn1_strlen (data) + 1; \
 	if (ptr_size < *len) { \
 		return ASN1_MEM_ERROR; \
 	} else { \
 		/* this strcpy is checked */ \
-		_asn1_strcpy(ptr, data); \
+		if (ptr) { \
+		  _asn1_strcpy (ptr, data); \
+		} \
 	}
 
 #define PUT_AS_STR_VALUE( ptr, ptr_size, data, data_size) \
@@ -633,35 +645,41 @@ asn1_write_value (asn1_node node_root, const char *name,
 		return ASN1_MEM_ERROR; \
 	} else { \
 		/* this strcpy is checked */ \
-		memcpy(ptr, data, data_size); \
-		ptr[data_size] = 0; \
+		if (ptr) { \
+		  if (data_size > 0) \
+		    memcpy (ptr, data, data_size); \
+		  ptr[data_size] = 0; \
+		} \
 	}
 
 #define ADD_STR_VALUE( ptr, ptr_size, data) \
-	*len = (int) _asn1_strlen(data) + 1; \
-	if (ptr_size < (int) _asn1_strlen(ptr)+(*len)) { \
-		return ASN1_MEM_ERROR; \
-	} else { \
-		/* this strcat is checked */ \
-		_asn1_strcat(ptr, data); \
-	}
+        *len += _asn1_strlen(data); \
+        if (ptr_size < (int) *len) { \
+                (*len)++; \
+                return ASN1_MEM_ERROR; \
+        } else { \
+                /* this strcat is checked */ \
+                if (ptr) _asn1_strcat (ptr, data); \
+        }
 
 /**
  * asn1_read_value:
  * @root: pointer to a structure.
  * @name: the name of the element inside a structure that you want to read.
  * @ivalue: vector that will contain the element's content, must be a
- *   pointer to memory cells already allocated.
+ *   pointer to memory cells already allocated (may be %NULL).
  * @len: number of bytes of *value: value[0]..value[len-1]. Initialy
  *   holds the sizeof value.
  *
- * Returns the value of one element inside a structure.
- *
- * If an element is OPTIONAL and the function "read_value" returns
+ * Returns the value of one element inside a structure. 
+ * If an element is OPTIONAL and this returns
  * %ASN1_ELEMENT_NOT_FOUND, it means that this element wasn't present
  * in the der encoding that created the structure.  The first element
  * of a SEQUENCE_OF or SET_OF is named "?1". The second one "?2" and
  * so on.
+ *
+ * Note that there can be valid values with length zero. In these case
+ * this function will succeed and @len will be zero.
  *
  * INTEGER: VALUE will contain a two's complement form integer.
  *
@@ -718,18 +736,21 @@ asn1_read_value (asn1_node root, const char *name, void *ivalue, int *len)
  * @root: pointer to a structure.
  * @name: the name of the element inside a structure that you want to read.
  * @ivalue: vector that will contain the element's content, must be a
- *   pointer to memory cells already allocated.
+ *   pointer to memory cells already allocated (may be %NULL).
  * @len: number of bytes of *value: value[0]..value[len-1]. Initialy
  *   holds the sizeof value.
  * @etype: The type of the value read (ASN1_ETYPE)
  *
- * Returns the value of one element inside a structure.
- *
- * If an element is OPTIONAL and the function "read_value" returns
+ * Returns the value of one element inside a structure. 
+ * If an element is OPTIONAL and this returns
  * %ASN1_ELEMENT_NOT_FOUND, it means that this element wasn't present
  * in the der encoding that created the structure.  The first element
  * of a SEQUENCE_OF or SET_OF is named "?1". The second one "?2" and
  * so on.
+ *
+ * Note that there can be valid values with length zero. In these case
+ * this function will succeed and @len will be zero.
+ *
  *
  * INTEGER: VALUE will contain a two's complement form integer.
  *
@@ -780,7 +801,7 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
 		      int *len, unsigned int *etype)
 {
   asn1_node node, p, p2;
-  int len2, len3;
+  int len2, len3, result;
   int value_size = *len;
   unsigned char *value = ivalue;
   unsigned type;
@@ -838,9 +859,10 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
 	  if ((isdigit (p->value[0])) || (p->value[0] == '-')
 	      || (p->value[0] == '+'))
 	    {
-	      if (_asn1_convert_integer
-		  (p->value, value, value_size, len) != ASN1_SUCCESS)
-		return ASN1_MEM_ERROR;
+	      result = _asn1_convert_integer
+		  (p->value, value, value_size, len);
+              if (result != ASN1_SUCCESS)
+		return result;
 	    }
 	  else
 	    {			/* is an identifier like v1 */
@@ -851,10 +873,11 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
 		    {
 		      if (!_asn1_strcmp (p2->name, p->value))
 			{
-			  if (_asn1_convert_integer
+			  result = _asn1_convert_integer
 			      (p2->value, value, value_size,
-			       len) != ASN1_SUCCESS)
-			    return ASN1_MEM_ERROR;
+			       len);
+			  if (result != ASN1_SUCCESS)
+			    return result;
 			  break;
 			}
 		    }
@@ -865,16 +888,19 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
       else
 	{
 	  len2 = -1;
-	  if (asn1_get_octet_der
+	  result = asn1_get_octet_der
 	      (node->value, node->value_len, &len2, value, value_size,
-	       len) != ASN1_SUCCESS)
-	    return ASN1_MEM_ERROR;
+	       len);
+          if (result != ASN1_SUCCESS)
+	    return result;
 	}
       break;
     case ASN1_ETYPE_OBJECT_ID:
       if (node->type & CONST_ASSIGN)
 	{
-	  value[0] = 0;
+	  *len = 0;
+	  if (value)
+	  	value[0] = 0;
 	  p = node->down;
 	  while (p)
 	    {
@@ -888,7 +914,7 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
 		}
 	      p = p->right;
 	    }
-	  *len = _asn1_strlen (value) + 1;
+	  (*len)++;
 	}
       else if ((node->type & CONST_DEFAULT) && (node->value == NULL))
 	{
@@ -917,17 +943,19 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
     case ASN1_ETYPE_UTF8_STRING:
     case ASN1_ETYPE_VISIBLE_STRING:
       len2 = -1;
-      if (asn1_get_octet_der
+      result = asn1_get_octet_der
 	  (node->value, node->value_len, &len2, value, value_size,
-	   len) != ASN1_SUCCESS)
-	return ASN1_MEM_ERROR;
+	   len);
+      if (result != ASN1_SUCCESS)
+	return result;
       break;
     case ASN1_ETYPE_BIT_STRING:
       len2 = -1;
-      if (asn1_get_bit_der
+      result = asn1_get_bit_der
 	  (node->value, node->value_len, &len2, value, value_size,
-	   len) != ASN1_SUCCESS)
-	return ASN1_MEM_ERROR;
+	   len);
+      if (result != ASN1_SUCCESS)
+	return result;
       break;
     case ASN1_ETYPE_CHOICE:
       PUT_STR_VALUE (value, value_size, node->down->name);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 Free Software Foundation, Inc.
+ * Copyright (C) 2000-2014 Free Software Foundation, Inc.
  *
  * This file is part of LIBTASN1.
  *
@@ -131,7 +131,7 @@ asn1_find_node (asn1_node pointer, const char *name)
 
       while (p)
 	{
-	  if ((p->name) && nhash == p->name_hash && (!strcmp (p->name, n)))
+	  if (nhash == p->name_hash && (!strcmp (p->name, n)))
 	    break;
 	  else
 	    p = p->right;
@@ -450,15 +450,24 @@ _asn1_get_last_right (asn1_node node)
 /*              element (not the elements pointed by it).         */
 /* Parameters:                                                    */
 /*   node: NODE_ASN element pointer.                              */
+/*   flags: ASN1_DELETE_FLAG_*                                    */
 /******************************************************************/
 void
-_asn1_remove_node (asn1_node node)
+_asn1_remove_node (asn1_node node, unsigned int flags)
 {
   if (node == NULL)
     return;
 
-  if (node->value != NULL && node->value != node->small_value)
-    free (node->value);
+  if (node->value != NULL)
+    {
+      if (flags & ASN1_DELETE_FLAG_ZEROIZE)
+        {
+          safe_memset(node->value, 0, node->value_len);
+        }
+
+      if (node->value != node->small_value)
+        free (node->value);
+    }
   free (node);
 }
 
@@ -517,7 +526,7 @@ _asn1_delete_list_and_nodes (void)
     {
       listElement = firstElement;
       firstElement = firstElement->next;
-      _asn1_remove_node (listElement->node);
+      _asn1_remove_node (listElement->node, 0);
       free (listElement);
     }
 }
@@ -527,7 +536,7 @@ char *
 _asn1_ltostr (long v, char *str)
 {
   long d, r;
-  char temp[20];
+  char temp[LTOSTR_MAX_SIZE];
   int count, k, start;
 
   if (v < 0)
@@ -672,7 +681,7 @@ _asn1_expand_object_id (asn1_node node)
 			  || !(p3->type & CONST_ASSIGN))
 			return ASN1_ELEMENT_NOT_FOUND;
 		      _asn1_set_down (p, p2->right);
-		      _asn1_remove_node (p2);
+		      _asn1_remove_node (p2, 0);
 		      p2 = p;
 		      p4 = p3->down;
 		      while (p4)
@@ -905,7 +914,7 @@ _asn1_check_identifier (asn1_node node)
   p = node;
   while (p)
     {
-      if (type_field (p->type) == ASN1_ETYPE_IDENTIFIER)
+      if (p->value && type_field (p->type) == ASN1_ETYPE_IDENTIFIER)
 	{
 	  _asn1_str_cpy (name2, sizeof (name2), node->name);
 	  _asn1_str_cat (name2, sizeof (name2), ".");

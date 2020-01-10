@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This file is part of LIBTASN1.
 #
@@ -23,10 +23,11 @@ AM_LDFLAGS = -no-install
 LDADD = ../lib/libtasn1.la ../gl/libgnu.la
 
 EXTRA_DIST = Test_parser.asn Test_tree.asn Test_tree_asn1_tab.c	\
-	Test_encoding.asn pkix.asn TestIndef.p12
+	Test_encoding.asn pkix.asn TestIndef.p12 choice.asn \
+	TestIndef2.p12 TestIndef3.der
 
 # For crlf.
-EXTRA_DIST += crlf.cer
+EXTRA_DIST += crlf.cer crl.der
 dist_check_SCRIPTS = crlf benchmark
 
 dist_check_SCRIPTS += threadsafety
@@ -34,18 +35,22 @@ dist_check_SCRIPTS += threadsafety
 MOSTLYCLEANFILES = Test_parser_ERROR.asn
 
 check_PROGRAMS = Test_parser Test_tree Test_encoding Test_indefinite \
-	Test_errors Test_simple Test_overflow Test_strings
+	Test_errors Test_simple Test_overflow Test_strings Test_choice \
+	Test_encdec
 
 TESTS = Test_parser Test_tree Test_encoding Test_indefinite	\
 	Test_errors Test_simple Test_overflow crlf threadsafety \
-	Test_strings
+	Test_strings Test_choice Test_encdec
 
 TESTS_ENVIRONMENT = \
 	ASN1PARSER=$(srcdir)/Test_parser.asn \
 	ASN1TREE=$(srcdir)/Test_tree.asn \
+	ASN1CHOICE=$(srcdir)/choice.asn \
 	ASN1PKIX=$(srcdir)/pkix.asn \
-	ASN1PKIX=$(srcdir)/pkix.asn \
+	ASN1CRLDER=$(srcdir)/crl.der \
 	ASN1INDEF=$(srcdir)/TestIndef.p12 \
+	ASN1INDEF2=$(srcdir)/TestIndef2.p12 \
+	ASN1INDEF3=$(srcdir)/TestIndef3.der \
 	ASN1ENCODING=$(srcdir)/Test_encoding.asn \
 	THREADSAFETY_FILES=`find $(top_srcdir)/lib -name \*.c` \
 	EXEEXT=$(EXEEXT) \

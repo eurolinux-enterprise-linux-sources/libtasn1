@@ -8,6 +8,6 @@
 Returns the value a data node inside a asn1_node structure.
 The data returned should be handled as constant values.
 
-@strong{Returns:} @code{ASN1_SUCCESS} if the node exists.
+@strong{Returns:} @code{ASN1_SUCCESS}  if the node exists.
 @end deftypefun
 

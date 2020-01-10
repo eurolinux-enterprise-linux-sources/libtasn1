@@ -9,15 +9,15 @@
 
 @var{tl}: the encoded tag and length
 
-@var{tl_len}: the bytes of the @code{tl} field
+@var{tl_len}: the bytes of the  @code{tl} field
 
 Creates the DER encoding for various simple ASN.1 types like strings etc.
-It stores the tag and length in @code{tl}, which should have space for at least
-@code{ASN1_MAX_TL_SIZE} bytes. Initially @code{tl_len} should contain the size of @code{tl}.
+It stores the tag and length in  @code{tl} , which should have space for at least
+@code{ASN1_MAX_TL_SIZE}  bytes. Initially  @code{tl_len} should contain the size of  @code{tl} .
 
-The complete DER encoding should consist of the value in @code{tl} appended
-with the provided @code{str}.
+The complete DER encoding should consist of the value in  @code{tl} appended
+with the provided  @code{str} .
 
-@strong{Returns:} @code{ASN1_SUCCESS} if successful or an error value.
+@strong{Returns:} @code{ASN1_SUCCESS}  if successful or an error value.
 @end deftypefun
 
