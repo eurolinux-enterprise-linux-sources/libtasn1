@@ -1,5 +1,5 @@
 # valgrind-tests.m4 serial 3
-dnl Copyright (C) 2008-2014 Free Software Foundation, Inc.
+dnl Copyright (C) 2008-2017 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -12,8 +12,8 @@ dnl From Simon Josefsson
 AC_DEFUN([gl_VALGRIND_TESTS],
 [
   AC_ARG_ENABLE(valgrind-tests,
-    AS_HELP_STRING([--enable-valgrind-tests],
-                   [run self tests under valgrind]),
+    AS_HELP_STRING([--disable-valgrind-tests],
+                   [don't try to run self tests under valgrind]),
     [opt_valgrind_tests=$enableval], [opt_valgrind_tests=yes])
 
   # Run self-tests under valgrind?
@@ -21,7 +21,7 @@ AC_DEFUN([gl_VALGRIND_TESTS],
     AC_CHECK_PROGS(VALGRIND, valgrind)
   fi
 
-  OPTS="-q --error-exitcode=1 --leak-check=no"
+  OPTS="-q --error-exitcode=6 --leak-check=no"
 
   if test -n "$VALGRIND" \
      && $VALGRIND $OPTS $SHELL -c 'exit 0' > /dev/null 2>&1; then

@@ -183,6 +183,8 @@ asn1_array2tree (const asn1_static_node * array, asn1_node * definitions,
   int result;
   unsigned int type;
 
+  if (errorDescription)
+    errorDescription[0] = 0;
 
   if (*definitions != NULL)
     return ASN1_ELEMENT_NOT_EMPTY;
@@ -423,6 +425,8 @@ _asn1_copy_structure3 (asn1_node source_node)
 	      _asn1_set_down (p_d_prev, p_d);
 	      continue;
 	    }
+	  p_d->start = p_s->start;
+	  p_d->end = p_s->end;
 	}
 
       if (p_s == source_node)
@@ -830,7 +834,7 @@ asn1_print_structure (FILE * out, asn1_node structure, const char *name,
 		  fprintf (out, "  value:0x");
 		  if (len > 0)
 		    for (k = 0; k < len; k++)
-		      fprintf (out, "%02x", (p->value)[k + len2]);
+		      fprintf (out, "%02x", (unsigned) (p->value)[k + len2]);
 		}
 	      break;
 	    case ASN1_ETYPE_ENUMERATED:
@@ -841,7 +845,7 @@ asn1_print_structure (FILE * out, asn1_node structure, const char *name,
 		  fprintf (out, "  value:0x");
 		  if (len > 0)
 		    for (k = 0; k < len; k++)
-		      fprintf (out, "%02x", (p->value)[k + len2]);
+		      fprintf (out, "%02x", (unsigned) (p->value)[k + len2]);
 		}
 	      break;
 	    case ASN1_ETYPE_BOOLEAN:
@@ -863,7 +867,7 @@ asn1_print_structure (FILE * out, asn1_node structure, const char *name,
 		      fprintf (out, "  value(%i):",
 			       (len - 1) * 8 - (p->value[len2]));
 		      for (k = 1; k < len; k++)
-			fprintf (out, "%02x", (p->value)[k + len2]);
+			fprintf (out, "%02x", (unsigned) (p->value)[k + len2]);
 		    }
 		}
 	      break;
@@ -903,7 +907,7 @@ asn1_print_structure (FILE * out, asn1_node structure, const char *name,
 		  fprintf (out, "  value:");
 		  if (len > 0)
 		    for (k = 0; k < len; k++)
-		      fprintf (out, "%02x", (p->value)[k + len2]);
+		      fprintf (out, "%02x", (unsigned) (p->value)[k + len2]);
 		}
 	      break;
 	    case ASN1_ETYPE_OBJECT_ID:
@@ -918,7 +922,7 @@ asn1_print_structure (FILE * out, asn1_node structure, const char *name,
 		  fprintf (out, "  value:");
 		  if (len2 > 0)
 		    for (k = 0; k < len2; k++)
-		      fprintf (out, "%02x", (p->value)[k + len3]);
+		      fprintf (out, "%02x", (unsigned) (p->value)[k + len3]);
 		}
 	      break;
 	    case ASN1_ETYPE_SET:
@@ -1128,12 +1132,13 @@ asn1_find_structure_from_oid (asn1_node definitions, const char *oidValue)
 
 /**
  * asn1_copy_node:
- * @dst: Destination asn1_node node.
+ * @dst: Destination asn1 node.
  * @dst_name: Field name in destination node.
- * @src: Source asn1_node node.
+ * @src: Source asn1 node.
  * @src_name: Field name in source node.
  *
- * Create a deep copy of a asn1_node variable.
+ * Create a deep copy of a asn1_node variable. That
+ * function requires @dst to be expanded using asn1_create_element().
  *
  * Returns: Return %ASN1_SUCCESS on success.
  **/
@@ -1141,9 +1146,6 @@ int
 asn1_copy_node (asn1_node dst, const char *dst_name,
 		asn1_node src, const char *src_name)
 {
-/* FIXME: rewrite using copy_structure().
- * It seems quite hard to do.
- */
   int result;
   asn1_node dst_node;
   void *data = NULL;
@@ -1176,4 +1178,20 @@ asn1_copy_node (asn1_node dst, const char *dst_name,
   free (data);
 
   return result;
+}
+
+/**
+ * asn1_dup_node:
+ * @src: Source asn1 node.
+ * @src_name: Field name in source node.
+ *
+ * Create a deep copy of a asn1_node variable. This function
+ * will return an exact copy of the provided structure.
+ *
+ * Returns: Return %NULL on failure.
+ **/
+asn1_node
+asn1_dup_node (asn1_node src, const char *src_name)
+{
+  return _asn1_copy_structure2(src, src_name);
 }

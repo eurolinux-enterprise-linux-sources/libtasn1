@@ -15,6 +15,6 @@
 
 Extract a BIT SEQUENCE from DER data.
 
-@strong{Returns:} Return @code{ASN1_SUCCESS}  on success, or an error.
+@strong{Returns:} @code{ASN1_SUCCESS}  on success, or an error.
 @end deftypefun
 

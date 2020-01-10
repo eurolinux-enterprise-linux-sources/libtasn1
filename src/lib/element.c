@@ -128,9 +128,18 @@ _asn1_convert_integer (const unsigned char *value, unsigned char *value_out,
   return ASN1_SUCCESS;
 }
 
-
+/* Appends a new element into the sequent (or set) defined by this
+ * node. The new element will have a name of '?number', where number
+ * is a monotonically increased serial number.
+ *
+ * The last element in the list may be provided in @pcache, to avoid
+ * traversing the list, an expensive operation in long lists.
+ *
+ * On success it returns in @pcache the added element (which is the 
+ * tail in the list of added elements).
+ */
 int
-_asn1_append_sequence_set (asn1_node node)
+_asn1_append_sequence_set (asn1_node node, struct node_tail_cache_st *pcache)
 {
   asn1_node p, p2;
   char temp[LTOSTR_MAX_SIZE];
@@ -143,10 +152,29 @@ _asn1_append_sequence_set (asn1_node node)
   while ((type_field (p->type) == ASN1_ETYPE_TAG)
 	 || (type_field (p->type) == ASN1_ETYPE_SIZE))
     p = p->right;
+
   p2 = _asn1_copy_structure3 (p);
-  while (p->right)
-    p = p->right;
+  if (p2 == NULL)
+    return ASN1_GENERIC_ERROR;
+
+  if (pcache == NULL || pcache->tail == NULL || pcache->head != node)
+    {
+      while (p->right)
+        {
+          p = p->right;
+        }
+    }
+  else
+    {
+      p = pcache->tail;
+    }
+
   _asn1_set_right (p, p2);
+  if (pcache)
+    {
+      pcache->head = node;
+      pcache->tail = p2;
+    }
 
   if (p->name[0] == 0)
     _asn1_str_cpy (temp, sizeof (temp), "?1");
@@ -608,7 +636,7 @@ asn1_write_value (asn1_node node_root, const char *name,
     case ASN1_ETYPE_SET_OF:
       if (_asn1_strcmp (value, "NEW"))
 	return ASN1_VALUE_NOT_VALID;
-      _asn1_append_sequence_set (node);
+      _asn1_append_sequence_set (node, NULL);
       break;
     default:
       return ASN1_ELEMENT_NOT_FOUND;
@@ -676,7 +704,9 @@ asn1_write_value (asn1_node node_root, const char *name,
  * %ASN1_ELEMENT_NOT_FOUND, it means that this element wasn't present
  * in the der encoding that created the structure.  The first element
  * of a SEQUENCE_OF or SET_OF is named "?1". The second one "?2" and
- * so on.
+ * so on. If the @root provided is a node to specific sequence element,
+ * then the keyword "?CURRENT" is also acceptable and indicates the
+ * current sequence element of this node.
  *
  * Note that there can be valid values with length zero. In these case
  * this function will succeed and @len will be zero.
@@ -723,7 +753,8 @@ asn1_write_value (asn1_node node_root, const char *name,
  *   %ASN1_VALUE_NOT_FOUND if there isn't any value for the element
  *   selected, and %ASN1_MEM_ERROR if The value vector isn't big enough
  *   to store the result, and in this case @len will contain the number of
- *   bytes needed.
+ *   bytes needed. On the occasion that the stored data are of zero-length
+ *   this function may return %ASN1_SUCCESS even if the provided @len is zero.
  **/
 int
 asn1_read_value (asn1_node root, const char *name, void *ivalue, int *len)
@@ -741,12 +772,14 @@ asn1_read_value (asn1_node root, const char *name, void *ivalue, int *len)
  *   holds the sizeof value.
  * @etype: The type of the value read (ASN1_ETYPE)
  *
- * Returns the value of one element inside a structure. 
+ * Returns the type and value of one element inside a structure. 
  * If an element is OPTIONAL and this returns
  * %ASN1_ELEMENT_NOT_FOUND, it means that this element wasn't present
  * in the der encoding that created the structure.  The first element
  * of a SEQUENCE_OF or SET_OF is named "?1". The second one "?2" and
- * so on.
+ * so on. If the @root provided is a node to specific sequence element,
+ * then the keyword "?CURRENT" is also acceptable and indicates the
+ * current sequence element of this node.
  *
  * Note that there can be valid values with length zero. In these case
  * this function will succeed and @len will be zero.
@@ -794,7 +827,8 @@ asn1_read_value (asn1_node root, const char *name, void *ivalue, int *len)
  *   %ASN1_VALUE_NOT_FOUND if there isn't any value for the element
  *   selected, and %ASN1_MEM_ERROR if The value vector isn't big enough
  *   to store the result, and in this case @len will contain the number of
- *   bytes needed.
+ *   bytes needed. On the occasion that the stored data are of zero-length
+ *   this function may return %ASN1_SUCCESS even if the provided @len is zero.
  **/
 int
 asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
@@ -900,7 +934,7 @@ asn1_read_value_type (asn1_node root, const char *name, void *ivalue,
 	{
 	  *len = 0;
 	  if (value)
-	  	value[0] = 0;
+	    value[0] = 0;
 	  p = node->down;
 	  while (p)
 	    {

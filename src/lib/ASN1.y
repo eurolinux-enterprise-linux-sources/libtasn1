@@ -57,7 +57,7 @@ static int _asn1_yylex(void);
 /* Prefix symbols and functions with _asn1_ */
 /* %define parse.lac full */
 %error-verbose
-%name-prefix="_asn1_yy"
+%name-prefix "_asn1_yy"
 
 %union {
   unsigned int constant;
@@ -621,7 +621,7 @@ _asn1_create_errorDescription (int error, char *error_desc)
     case ASN1_NAME_TOO_LONG:
       snprintf (error_desc, ASN1_MAX_ERROR_DESCRIPTION_SIZE,
                 "%s:%u: name too long (more than %u characters)", file_name,
-                line_number, ASN1_MAX_NAME_SIZE);
+                line_number, (unsigned)ASN1_MAX_NAME_SIZE);
       break;
     case ASN1_IDENTIFIER_NOT_FOUND:
       snprintf (error_desc, ASN1_MAX_ERROR_DESCRIPTION_SIZE,
@@ -649,7 +649,7 @@ _asn1_create_errorDescription (int error, char *error_desc)
  *
  * Returns: %ASN1_SUCCESS if the file has a correct syntax and every
  *   identifier is known, %ASN1_ELEMENT_NOT_EMPTY if @definitions not
- *   %NULL, %ASN1_FILE_NOT_FOUND if an error occured while
+ *   %NULL, %ASN1_FILE_NOT_FOUND if an error occurred while
  *   opening @file, %ASN1_SYNTAX_ERROR if the syntax is not
  *   correct, %ASN1_IDENTIFIER_NOT_FOUND if in the file there is an
  *   identifier that is not defined, %ASN1_NAME_TOO_LONG if in the
@@ -737,7 +737,7 @@ asn1_parser2tree (const char *file, asn1_node * definitions,
  * will be "xx_asn1_tab".
  *
  * Returns: %ASN1_SUCCESS if the file has a correct syntax and every
- *   identifier is known, %ASN1_FILE_NOT_FOUND if an error occured
+ *   identifier is known, %ASN1_FILE_NOT_FOUND if an error occurred
  *   while opening @inputFileName, %ASN1_SYNTAX_ERROR if the syntax is
  *   not correct, %ASN1_IDENTIFIER_NOT_FOUND if in the file there is
  *   an identifier that is not defined, %ASN1_NAME_TOO_LONG if in the

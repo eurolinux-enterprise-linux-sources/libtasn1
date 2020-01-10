@@ -56,6 +56,11 @@ struct asn1_node_st
   asn1_node left;		/* Pointer to the next list element */
   /* private fields: */
   unsigned char small_value[ASN1_SMALL_VALUE_SIZE];	/* For small values */
+
+  /* values used during decoding/coding */
+  int tmp_ival;
+  unsigned start; /* the start of the DER sequence - if decoded */
+  unsigned end; /* the end of the DER sequence - if decoded */
 };
 
 typedef struct tag_and_class_st
@@ -92,9 +97,16 @@ typedef struct tag_and_class_st
 
 #define ETYPE_TAG(etype) (_asn1_tags[etype].tag)
 #define ETYPE_CLASS(etype) (_asn1_tags[etype].class)
-#define ETYPE_OK(etype) ((etype != ASN1_ETYPE_INVALID && \
-                          etype <= _asn1_tags_size && \
-                          _asn1_tags[etype].desc != NULL)?1:0)
+#define ETYPE_OK(etype) (((etype) != ASN1_ETYPE_INVALID && \
+                          (etype) <= _asn1_tags_size && \
+                          _asn1_tags[(etype)].desc != NULL)?1:0)
+
+#define ETYPE_IS_STRING(etype) ((etype == ASN1_ETYPE_GENERALSTRING || \
+	etype == ASN1_ETYPE_NUMERIC_STRING || etype == ASN1_ETYPE_IA5_STRING || \
+	etype == ASN1_ETYPE_TELETEX_STRING || etype == ASN1_ETYPE_PRINTABLE_STRING || \
+	etype == ASN1_ETYPE_UNIVERSAL_STRING || etype == ASN1_ETYPE_BMP_STRING || \
+	etype == ASN1_ETYPE_UTF8_STRING || etype == ASN1_ETYPE_VISIBLE_STRING || \
+	etype == ASN1_ETYPE_OCTET_STRING)?1:0)
 
 extern unsigned int _asn1_tags_size;
 extern const tag_and_class_st _asn1_tags[];
@@ -105,6 +117,12 @@ extern const tag_and_class_st _asn1_tags[];
 #define _asn1_strcmp(a,b) strcmp((const char *)a, (const char *)b)
 #define _asn1_strcpy(a,b) strcpy((char *)a, (const char *)b)
 #define _asn1_strcat(a,b) strcat((char *)a, (const char *)b)
+
+#if SIZEOF_UNSIGNED_LONG_INT == 8
+# define _asn1_strtou64(n,e,b) strtoul((const char *) n, e, b)
+#else
+# define _asn1_strtou64(n,e,b) strtoull((const char *) n, e, b)
+#endif
 
 #define MAX_LOG_SIZE 1024	/* maximum number of characters of a log message */
 
@@ -183,6 +201,22 @@ convert_old_type (unsigned int ntype)
     }
   else
     return ntype;
+}
+
+static inline
+void *_asn1_realloc(void *ptr, size_t size)
+{
+  void *ret;
+
+  if (size == 0)
+    return ptr;
+
+  ret = realloc(ptr, size);
+  if (ret == NULL)
+    {
+      free(ptr);
+    }
+  return ret;
 }
 
 #endif /* INT_H */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2014 Free Software Foundation, Inc.
+ * Copyright (C) 2000-2016 Free Software Foundation, Inc.
  *
  * This file is part of LIBTASN1.
  *
@@ -84,7 +84,7 @@ _asn1_add_static_node (unsigned int type)
  * @name: null terminated string with the element's name to find.
  *
  * Searches for an element called @name starting from @pointer.  The
- * name is composed by differents identifiers separated by dots.  When
+ * name is composed by different identifiers separated by dots.  When
  * *@pointer has a name, the first identifier must be the name of
  * *@pointer, otherwise it must be the name of one child of *@pointer.
  *
@@ -108,7 +108,13 @@ asn1_find_node (asn1_node pointer, const char *name)
   p = pointer;
   n_start = name;
 
-  if (p->name[0] != 0)
+  if (name[0] == '?' && name[1] == 'C' && p->name[0] == '?')
+    { /* ?CURRENT */
+      n_start = strchr(n_start, '.');
+      if (n_start)
+        n_start++;
+    }
+  else if (p->name[0] != 0)
     {				/* has *pointer got a name ? */
       n_end = strchr (n_start, '.');	/* search the first dot */
       if (n_end)
@@ -170,13 +176,13 @@ asn1_find_node (asn1_node pointer, const char *name)
 	return NULL;
 
       p = p->down;
+      if (p == NULL)
+        return NULL;
 
       /* The identifier "?LAST" indicates the last element
          in the right chain. */
-      if (!strcmp (n, "?LAST"))
+      if (n[0] == '?' && n[1] == 'L') /* ?LAST */
 	{
-	  if (p == NULL)
-	    return NULL;
 	  while (p->right)
 	    p = p->right;
 	}
@@ -189,9 +195,9 @@ asn1_find_node (asn1_node pointer, const char *name)
 	      else
 		p = p->right;
 	    }
-	  if (p == NULL)
-	    return NULL;
 	}
+      if (p == NULL)
+        return NULL;
     }				/* while */
 
   return p;
@@ -310,22 +316,14 @@ _asn1_append_value (asn1_node node, const void *value, unsigned int len)
 {
   if (node == NULL)
     return node;
-  if (node->value != NULL && node->value != node->small_value)
-    {
-      /* value is allocated */
-      int prev_len = node->value_len;
-      node->value_len += len;
-      node->value = realloc (node->value, node->value_len);
-      if (node->value == NULL)
-	{
-	  node->value_len = 0;
-	  return NULL;
-	}
-      memcpy (&node->value[prev_len], value, len);
 
-      return node;
-    }
-  else if (node->value == node->small_value)
+  if (node->value == NULL)
+    return _asn1_set_value (node, value, len);
+
+  if (len == 0)
+    return node;
+
+  if (node->value == node->small_value)
     {
       /* value is in node */
       int prev_len = node->value_len;
@@ -336,13 +334,31 @@ _asn1_append_value (asn1_node node, const void *value, unsigned int len)
 	  node->value_len = 0;
 	  return NULL;
 	}
-      memcpy (node->value, node->small_value, prev_len);
+
+      if (prev_len > 0)
+        memcpy (node->value, node->small_value, prev_len);
+
       memcpy (&node->value[prev_len], value, len);
 
       return node;
     }
-  else				/* node->value == NULL */
-    return _asn1_set_value (node, value, len);
+  else /* if (node->value != NULL && node->value != node->small_value) */
+    {
+      /* value is allocated */
+      int prev_len = node->value_len;
+      node->value_len += len;
+
+      node->value = _asn1_realloc (node->value, node->value_len);
+      if (node->value == NULL)
+	{
+	  node->value_len = 0;
+	  return NULL;
+	}
+
+      memcpy (&node->value[prev_len], value, len);
+
+      return node;
+    }
 }
 
 /******************************************************************/
@@ -533,31 +549,35 @@ _asn1_delete_list_and_nodes (void)
 
 
 char *
-_asn1_ltostr (long v, char *str)
+_asn1_ltostr (int64_t v, char str[LTOSTR_MAX_SIZE])
 {
-  long d, r;
+  uint64_t d, r;
   char temp[LTOSTR_MAX_SIZE];
   int count, k, start;
+  uint64_t val;
 
   if (v < 0)
     {
       str[0] = '-';
       start = 1;
-      v = -v;
+      val = -((uint64_t)v);
     }
   else
-    start = 0;
+    {
+      val = v;
+      start = 0;
+    }
 
   count = 0;
   do
     {
-      d = v / 10;
-      r = v - d * 10;
+      d = val / 10;
+      r = val - d * 10;
       temp[start + count] = '0' + (char) r;
       count++;
-      v = d;
+      val = d;
     }
-  while (v);
+  while (val && ((start+count) < LTOSTR_MAX_SIZE-1));
 
   for (k = 0; k < count; k++)
     str[k + start] = temp[start + count - k - 1];
@@ -621,7 +641,7 @@ _asn1_change_integer_value (asn1_node node)
 		      p = NULL;
 		      break;
 		    }
-		  if (p->right)
+		  if (p && p->right)
 		    {
 		      p = p->right;
 		      break;
@@ -691,9 +711,12 @@ _asn1_expand_object_id (asn1_node node)
 			      p5 =
 				_asn1_add_single_node (ASN1_ETYPE_CONSTANT);
 			      _asn1_set_name (p5, p4->name);
-			      tlen = _asn1_strlen (p4->value);
-			      if (tlen > 0)
-				_asn1_set_value (p5, p4->value, tlen + 1);
+			      if (p4->value)
+			        {
+			          tlen = _asn1_strlen (p4->value);
+			          if (tlen > 0)
+			            _asn1_set_value (p5, p4->value, tlen + 1);
+			        }
 			      if (p2 == p)
 				{
 				  _asn1_set_right (p5, p->down);
@@ -734,7 +757,7 @@ _asn1_expand_object_id (asn1_node node)
 
       if (move == RIGHT)
 	{
-	  if (p->right)
+	  if (p && p->right)
 	    p = p->right;
 	  else
 	    move = UP;
@@ -773,6 +796,9 @@ _asn1_expand_object_id (asn1_node node)
 		    {
 		      if (type_field (p4->type) == ASN1_ETYPE_CONSTANT)
 			{
+			  if (p4->value == NULL)
+			    return ASN1_VALUE_NOT_FOUND;
+
 			  if (name2[0])
 			    _asn1_str_cat (name2, sizeof (name2), ".");
 			  _asn1_str_cat (name2, sizeof (name2),
@@ -806,7 +832,7 @@ _asn1_expand_object_id (asn1_node node)
 
       if (move == RIGHT)
 	{
-	  if (p->right)
+	  if (p && p->right)
 	    p = p->right;
 	  else
 	    move = UP;
@@ -876,7 +902,7 @@ _asn1_type_set_config (asn1_node node)
 
       if (move == RIGHT)
 	{
-	  if (p->right)
+	  if (p && p->right)
 	    p = p->right;
 	  else
 	    move = UP;
@@ -985,7 +1011,7 @@ _asn1_check_identifier (asn1_node node)
 		  p = NULL;
 		  break;
 		}
-	      if (p->right)
+	      if (p && p->right)
 		{
 		  p = p->right;
 		  break;
@@ -1045,7 +1071,7 @@ _asn1_set_default_tag (asn1_node node)
 		  p = NULL;
 		  break;
 		}
-	      if (p->right)
+	      if (p && p->right)
 		{
 		  p = p->right;
 		  break;

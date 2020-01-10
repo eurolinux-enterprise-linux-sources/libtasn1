@@ -26,6 +26,7 @@ LIBTASN1_0_3
     asn1_delete_element;
     asn1_delete_structure;
     asn1_der_coding;
+    asn1_der_decoding2;
     asn1_der_decoding;
     asn1_der_decoding_element;
     asn1_der_decoding_startEnd;
@@ -54,6 +55,9 @@ LIBTASN1_0_3
     asn1_decode_simple_der;
     asn1_read_value_type;
     asn1_delete_structure2;
+    asn1_dup_node;
+    asn1_decode_simple_ber;
+    asn1_get_object_id_der;
   local:
     *;
 };

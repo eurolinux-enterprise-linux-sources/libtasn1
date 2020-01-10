@@ -1,11 +1,11 @@
 @subheading asn1_decode_simple_der
 @anchor{asn1_decode_simple_der}
-@deftypefun {int} {asn1_decode_simple_der} (unsigned int @var{etype}, const unsigned char * @var{der}, unsigned int @var{der_len}, const unsigned char ** @var{str}, unsigned int * @var{str_len})
+@deftypefun {int} {asn1_decode_simple_der} (unsigned int @var{etype}, const unsigned char * @var{der}, unsigned int @var{_der_len}, const unsigned char ** @var{str}, unsigned int * @var{str_len})
 @var{etype}: The type of the string to be encoded (ASN1_ETYPE_)
 
 @var{der}: the encoded string
 
-@var{der_len}: the bytes of the encoded string
+@var{_der_len}: the bytes of the encoded string
 
 @var{str}: a pointer to the data
 

@@ -337,7 +337,7 @@ _asn1_objectid_der (unsigned char *str, unsigned char *der, int *der_len)
   int len_len, counter, k, first, max_len;
   char *temp, *n_end, *n_start;
   unsigned char bit7;
-  unsigned long val, val1 = 0;
+  uint64_t val, val1 = 0;
   int str_len = _asn1_strlen (str);
 
   max_len = *der_len;
@@ -355,7 +355,7 @@ _asn1_objectid_der (unsigned char *str, unsigned char *der, int *der_len)
   while ((n_end = strchr (n_start, '.')))
     {
       *n_end = 0;
-      val = strtoul (n_start, NULL, 10);
+      val = _asn1_strtou64 (n_start, NULL, 10);
       counter++;
 
       if (counter == 1)
@@ -369,7 +369,7 @@ _asn1_objectid_der (unsigned char *str, unsigned char *der, int *der_len)
       else
 	{
 	  first = 0;
-	  for (k = 4; k >= 0; k--)
+	  for (k = sizeof(val); k >= 0; k--)
 	    {
 	      bit7 = (val >> (k * 7)) & 0x7F;
 	      if (bit7 || first || !k)
@@ -443,7 +443,9 @@ asn1_bit_der (const unsigned char *str, int bit_len,
     len_byte++;
   asn1_length_der (len_byte + 1, der, &len_len);
   der[len_len] = len_pad;
-  memcpy (der + len_len + 1, str, len_byte);
+
+  if (str)
+    memcpy (der + len_len + 1, str, len_byte);
   der[len_len + len_byte] &= bit_mask[len_pad];
   *der_len = len_byte + len_len + 1;
 }
@@ -493,6 +495,7 @@ _asn1_complete_explicit_tag (asn1_node node, unsigned char *der,
 		{
 		  len2 = strtol (p->name, NULL, 10);
 		  _asn1_set_name (p, NULL);
+
 		  asn1_length_der (*counter - len2, temp, &len3);
 		  if (len3 <= (*max_len))
 		    {
@@ -627,7 +630,7 @@ _asn1_insert_tag_der (asn1_node node, unsigned char *der, int *counter,
 				   tag_der, &tag_len);
 
 		  *max_len -= tag_len;
-		  if (*max_len >= 0)
+		  if (der && *max_len >= 0)
 		    memcpy (der + *counter, tag_der, tag_len);
 		  *counter += tag_len;
 
@@ -679,7 +682,7 @@ _asn1_insert_tag_der (asn1_node node, unsigned char *der, int *counter,
     }
 
   *max_len -= tag_len;
-  if (*max_len >= 0)
+  if (der && *max_len >= 0)
     memcpy (der + *counter, tag_der, tag_len);
   *counter += tag_len;
 
@@ -754,7 +757,7 @@ _asn1_ordering_set (unsigned char *der, int der_len, asn1_node node)
       if (err != ASN1_SUCCESS)
 	goto error;
 
-      t = class << 24;
+      t = ((unsigned int)class) << 24;
       p_vet->value = t | tag;
       counter += len2;
 
@@ -1013,9 +1016,12 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 {
   asn1_node node, p, p2;
   unsigned char temp[MAX(LTOSTR_MAX_SIZE, SIZEOF_UNSIGNED_LONG_INT * 3 + 1)];
-  int counter, counter_old, len2, len3, tlen, move, max_len, max_len_old;
+  int counter, counter_old, len2, len3, move, max_len, max_len_old;
   int err;
   unsigned char *der = ider;
+
+  if (ErrorDescription)
+    ErrorDescription[0] = 0;
 
   node = asn1_find_node (element, name);
   if (node == NULL)
@@ -1034,6 +1040,7 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
   counter = 0;
   move = DOWN;
   p = node;
+
   while (1)
     {
 
@@ -1041,6 +1048,7 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
       max_len_old = max_len;
       if (move != UP)
 	{
+          p->start = counter;
 	  err = _asn1_insert_tag_der (p, der, &counter, &max_len);
 	  if (err != ASN1_SUCCESS && err != ASN1_MEM_ERROR)
 	    goto error;
@@ -1187,10 +1195,7 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 	case ASN1_ETYPE_SET:
 	  if (move != UP)
 	    {
-	      _asn1_ltostr (counter, (char *) temp);
-	      tlen = _asn1_strlen (temp);
-	      if (tlen > 0)
-		_asn1_set_value (p, temp, tlen + 1);
+	      p->tmp_ival = counter;
 	      if (p->down == NULL)
 		{
 		  move = UP;
@@ -1213,8 +1218,8 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 	    }
 	  else
 	    {			/* move==UP */
-	      len2 = _asn1_strtol (p->value, NULL, 10);
-	      _asn1_set_value (p, NULL, 0);
+	      len2 = p->tmp_ival;
+	      p->tmp_ival = 0;
 	      if ((type_field (p->type) == ASN1_ETYPE_SET) && (max_len >= 0))
 		{
 		  err = _asn1_ordering_set (der + len2, counter - len2, p);
@@ -1236,11 +1241,7 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 	case ASN1_ETYPE_SET_OF:
 	  if (move != UP)
 	    {
-	      _asn1_ltostr (counter, (char *) temp);
-	      tlen = _asn1_strlen (temp);
-
-	      if (tlen > 0)
-		_asn1_set_value (p, temp, tlen + 1);
+	      p->tmp_ival = counter;
 	      p = p->down;
 	      while ((type_field (p->type) == ASN1_ETYPE_TAG)
 		     || (type_field (p->type) == ASN1_ETYPE_SIZE))
@@ -1257,8 +1258,8 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 	    }
 	  if (move == UP)
 	    {
-	      len2 = _asn1_strtol (p->value, NULL, 10);
-	      _asn1_set_value (p, NULL, 0);
+	      len2 = p->tmp_ival;
+	      p->tmp_ival = 0;
 	      if ((type_field (p->type) == ASN1_ETYPE_SET_OF)
 		  && (counter - len2 > 0) && (max_len >= 0))
 		{
@@ -1303,6 +1304,7 @@ asn1_der_coding (asn1_node element, const char *name, void *ider, int *len,
 
       if ((move != DOWN) && (counter != counter_old))
 	{
+          p->end = counter - 1;
 	  err = _asn1_complete_explicit_tag (p, der, &counter, &max_len);
 	  if (err != ASN1_SUCCESS && err != ASN1_MEM_ERROR)
 	    goto error;

@@ -26,7 +26,11 @@ EXTRA_DIST = windows/asn1-parser/asn1-parser.vcproj			\
 	windows/test-parser/test-parser.vcproj				\
 	windows/test-tree/test-tree.vcproj windows/libtasn14win.mk
 
-SUBDIRS = gl lib src examples tests doc
+SUBDIRS = gl lib src tests
+
+if ENABLE_DOC
+SUBDIRS += doc examples
+endif
 
 ACLOCAL_AMFLAGS = -I m4 -I gl/m4 -I lib/glm4
 
@@ -35,5 +39,27 @@ EXTRA_DIST += cfg.mk maint.mk .clcopying
 gnulib-update:
 	gnulib-tool --add-import --dir=. --lib=libgnu --source-base=lib/gllib --m4-base=lib/glm4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --lgpl=2 --no-conditional-dependencies --libtool --macro-prefix=lgl --no-vc-files
 
-dist-hook:
+TMPFILE="abi-temp.xml"
+
+abi-check:
+	@rm -f $(TMPFILE)
+	@echo "Checking libtasn1 ABI"
+	@echo "<version>$(VERSION)</version>" >$(TMPFILE)
+	@echo "<headers>$(srcdir)/lib/libtasn1.h" >>$(TMPFILE)
+	@echo "$(builddir)/lib/libtasn1.h</headers>" >>$(TMPFILE)
+	@echo "<libs>$(builddir)/lib/.libs</libs>" >>$(TMPFILE)
+	test ! -f "$(srcdir)/devel/ABI-$$(uname -m).dump" || \
+		abi-compliance-checker -abi -lib libtasn1 -old "$(srcdir)/devel/ABI-$$(uname -m).dump" -new $(TMPFILE)
+	@rm -f $(TMPFILE)
+
+abi-dump:
+	@mkdir -p devel/headers-tmp
+	@cp lib/libtasn1.h devel/headers-tmp
+	@abi-dumper lib/.libs/libtasn1.so -o "./devel/ABI-$$(uname -m).dump" -public-headers devel/headers-tmp
+	@rm -rf devel/headers-tmp
+
+
+dist-hook: abi-check
 	make -C doc/ compare-makefile
+
+.PHONY: abi-dump abi-check

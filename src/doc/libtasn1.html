@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- This manual is for GNU Libtasn1
-(version 3.8, 27 April 2014),
+(version 4.10, 4 April 2016),
 which is a library for Abstract Syntax Notation One (ASN.1) and
 Distinguished Encoding Rules (DER) manipulation.
 
-Copyright (C) 2001-2014 Free Software Foundation, Inc.
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -13,12 +13,12 @@ any later version published by the Free Software Foundation; with no
 Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
 copy of the license is included in the section entitled "GNU Free
 Documentation License". -->
-<!-- Created by GNU Texinfo 5.2, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Libtasn1 3.8</title>
+<title>GNU Libtasn1 4.10</title>
 
-<meta name="description" content="GNU Libtasn1 3.8">
-<meta name="keywords" content="GNU Libtasn1 3.8">
+<meta name="description" content="GNU Libtasn1 4.10">
+<meta name="keywords" content="GNU Libtasn1 4.10">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -30,16 +30,16 @@ Documentation License". -->
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
 blockquote.smallquotation {font-size: smaller}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
-div.indentedblock {margin-left: 3.2em}
 div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
-div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
 div.smalllisp {margin-left: 3.2em}
-kbd {font-style:oblique}
+kbd {font-style: oblique}
 pre.display {font-family: inherit}
 pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
@@ -48,10 +48,9 @@ pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
 pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:nowrap}
-span.nolinebreak {white-space:nowrap}
-span.roman {font-family:serif; font-weight:normal}
-span.sansserif {font-family:sans-serif; font-weight:normal}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
 ul.no-bullet {list-style: none}
 body {
 	margin: 2%;
@@ -104,8 +103,8 @@ dd, li {
 
 </head>
 
-<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<h1 class="settitle" align="center">GNU Libtasn1 3.8</h1>
+<body lang="en">
+<h1 class="settitle" align="center">GNU Libtasn1 4.10</h1>
 
 
 
@@ -159,11 +158,11 @@ Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a>, Up: <a 
 <h1 class="top">Libtasn1</h1>
 
 <p>This manual is for GNU Libtasn1
-(version 3.8, 27 April 2014),
+(version 4.10, 4 April 2016),
 which is a library for Abstract Syntax Notation One (ASN.1) and
 Distinguished Encoding Rules (DER) manipulation.
 </p>
-<p>Copyright &copy; 2001-2014 Free Software Foundation, Inc.
+<p>Copyright &copy; 2001-2015 Free Software Foundation, Inc.
 </p>
 <blockquote>
 <p>Permission is granted to copy, distribute and/or modify this document
@@ -187,6 +186,7 @@ Documentation License&rdquo;.
 <tr><td align="left" valign="top">&bull; <a href="#Copying-Information" accesskey="5">Copying Information</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
 Indices
 
 </pre></th></tr><tr><td align="left" valign="top">&bull; <a href="#Concept-Index" accesskey="6">Concept Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Index of concepts and programs.
@@ -545,25 +545,38 @@ Options:
 </pre>
 <p>For example, consider an ASN.1 definitions file as follows:
 </p>
-<pre class="verbatim">PKIX1 { }
+<pre class="verbatim">MYPKIX1 { }
 
 DEFINITIONS IMPLICIT TAGS ::=
 
 BEGIN
 
+OtherStruct := SEQUENCE {
+     x       INTEGER,
+     y       CHOICE {
+         y1 INTEGER,
+         y2 OCTET STRING },
+}
+
 Dss-Sig-Value ::= SEQUENCE {
      r       INTEGER,
-     s       INTEGER
+     s       INTEGER,
+     other   OtherStruct
+     z       INTEGER OPTIONAL,
 }
 
 END
 </pre>
 <p>And a assignments file as follows:
 </p>
-<pre class="verbatim">dp PKIX1.Dss-Sig-Value
+<pre class="verbatim">dp MYPKIX1.Dss-Sig-Value
 
 r 42
 s 47
+other.x 66
+other.y y1
+other.y.y1 15
+z (NULL)
 </pre>
 <p>Running the command below will generate a <samp>assign.out</samp> file,
 containing the DER encoding of <code>PKIX1.Dss-Sig-Value</code>.
@@ -1350,19 +1363,40 @@ the value was too big.
 <dt><a name="index-asn1_005fget_005foctet_005fder"></a>Function: <em>int</em> <strong>asn1_get_octet_der</strong> <em>(const unsigned char * <var>der</var>, int <var>der_len</var>, int * <var>ret_len</var>, unsigned char * <var>str</var>, int <var>str_size</var>, int * <var>str_len</var>)</em></dt>
 <dd><p><var>der</var>: DER data to decode containing the OCTET SEQUENCE.
 </p>
-<p><var>der_len</var>: Length of DER data to decode.
+<p><var>der_len</var>: The length of the  <code>der</code> data to decode.
 </p>
-<p><var>ret_len</var>: Output variable containing the length of the DER data.
+<p><var>ret_len</var>: Output variable containing the encoded length of the DER data.
 </p>
 <p><var>str</var>: Pre-allocated output buffer to put decoded OCTET SEQUENCE in.
 </p>
 <p><var>str_size</var>: Length of pre-allocated output buffer.
 </p>
-<p><var>str_len</var>: Output variable containing the length of the OCTET SEQUENCE.
+<p><var>str_len</var>: Output variable containing the length of the contents of the OCTET SEQUENCE.
 </p>
-<p>Extract an OCTET SEQUENCE from DER data.
+<p>Extract an OCTET SEQUENCE from DER data. Note that this function
+expects the DER data past the tag field, i.e., the length and
+content octets.
 </p>
 <p><strong>Returns:</strong> Returns <code>ASN1_SUCCESS</code>  on success, or an error.
+</p></dd></dl>
+
+<a name="asn1_005fget_005fobject_005fid_005fder-1"></a>
+<h4 class="subheading">asn1_get_object_id_der</h4>
+<a name="asn1_005fget_005fobject_005fid_005fder"></a><dl>
+<dt><a name="index-asn1_005fget_005fobject_005fid_005fder"></a>Function: <em>int</em> <strong>asn1_get_object_id_der</strong> <em>(const unsigned char * <var>der</var>, int <var>der_len</var>, int * <var>ret_len</var>, char * <var>str</var>, int <var>str_size</var>)</em></dt>
+<dd><p><var>der</var>: DER data to decode containing the OBJECT IDENTIFIER
+</p>
+<p><var>der_len</var>: Length of DER data to decode.
+</p>
+<p><var>ret_len</var>: Output variable containing the length of the DER data.
+</p>
+<p><var>str</var>: Pre-allocated output buffer to put the textual object id in.
+</p>
+<p><var>str_size</var>: Length of pre-allocated output buffer.
+</p>
+<p>Converts a DER encoded object identifier to its textual form.
+</p>
+<p><strong>Returns:</strong> <code>ASN1_SUCCESS</code>  on success, or an error.
 </p></dd></dl>
 
 <a name="asn1_005fget_005fbit_005fder-1"></a>
@@ -1383,7 +1417,7 @@ the value was too big.
 </p>
 <p>Extract a BIT SEQUENCE from DER data.
 </p>
-<p><strong>Returns:</strong> Return <code>ASN1_SUCCESS</code>  on success, or an error.
+<p><strong>Returns:</strong> <code>ASN1_SUCCESS</code>  on success, or an error.
 </p></dd></dl>
 
 <a name="asn1_005fder_005fdecoding2-1"></a>
@@ -1409,6 +1443,9 @@ structure must just be created with function <code>asn1_create_element()</code> 
 <p>If <code>ASN1_DECODE_FLAG_ALLOW_PADDING</code>  flag is set then the function will ignore
 padding after the decoded DER data. Upon a successful return the value of
 * <code>max_ider_len</code> will be set to the number of bytes decoded.
+</p>
+<p>If <code>ASN1_DECODE_FLAG_STRICT_DER</code>  flag is set then the function will
+not decode any BER-encoded elements.
 </p>
 <p><strong>Returns:</strong> <code>ASN1_SUCCESS</code>  if DER encoding OK, <code>ASN1_ELEMENT_NOT_FOUND</code> 
 if  <code>ELEMENT</code> is <code>NULL</code> , and <code>ASN1_TAG_ERROR</code>  or
@@ -1556,12 +1593,12 @@ use for expansion, or other errors depending on DER decoding.
 <a name="asn1_005fdecode_005fsimple_005fder-1"></a>
 <h4 class="subheading">asn1_decode_simple_der</h4>
 <a name="asn1_005fdecode_005fsimple_005fder"></a><dl>
-<dt><a name="index-asn1_005fdecode_005fsimple_005fder"></a>Function: <em>int</em> <strong>asn1_decode_simple_der</strong> <em>(unsigned int <var>etype</var>, const unsigned char * <var>der</var>, unsigned int <var>der_len</var>, const unsigned char ** <var>str</var>, unsigned int * <var>str_len</var>)</em></dt>
+<dt><a name="index-asn1_005fdecode_005fsimple_005fder"></a>Function: <em>int</em> <strong>asn1_decode_simple_der</strong> <em>(unsigned int <var>etype</var>, const unsigned char * <var>der</var>, unsigned int <var>_der_len</var>, const unsigned char ** <var>str</var>, unsigned int * <var>str_len</var>)</em></dt>
 <dd><p><var>etype</var>: The type of the string to be encoded (ASN1_ETYPE_)
 </p>
 <p><var>der</var>: the encoded string
 </p>
-<p><var>der_len</var>: the bytes of the encoded string
+<p><var>_der_len</var>: the bytes of the encoded string
 </p>
 <p><var>str</var>: a pointer to the data
 </p>
@@ -1569,6 +1606,29 @@ use for expansion, or other errors depending on DER decoding.
 </p>
 <p>Decodes a simple DER encoded type (e.g. a string, which is not constructed).
 The output is a pointer inside the  <code>der</code> .
+</p>
+<p><strong>Returns:</strong> <code>ASN1_SUCCESS</code>  if successful or an error value.
+</p></dd></dl>
+
+<a name="asn1_005fdecode_005fsimple_005fber-1"></a>
+<h4 class="subheading">asn1_decode_simple_ber</h4>
+<a name="asn1_005fdecode_005fsimple_005fber"></a><dl>
+<dt><a name="index-asn1_005fdecode_005fsimple_005fber"></a>Function: <em>int</em> <strong>asn1_decode_simple_ber</strong> <em>(unsigned int <var>etype</var>, const unsigned char * <var>der</var>, unsigned int <var>_der_len</var>, unsigned char ** <var>str</var>, unsigned int * <var>str_len</var>, unsigned int * <var>ber_len</var>)</em></dt>
+<dd><p><var>etype</var>: The type of the string to be encoded (ASN1_ETYPE_)
+</p>
+<p><var>der</var>: the encoded string
+</p>
+<p><var>_der_len</var>: the bytes of the encoded string
+</p>
+<p><var>str</var>: a pointer to the data
+</p>
+<p><var>str_len</var>: the length of the data
+</p>
+<p><var>ber_len</var>: the total length occupied by BER (may be <code>NULL</code> )
+</p>
+<p>Decodes a BER encoded type. The output is an allocated value 
+of the data. This decodes BER STRINGS only. Other types are
+decoded as DER.
 </p>
 <p><strong>Returns:</strong> <code>ASN1_SUCCESS</code>  if successful or an error value.
 </p></dd></dl>
@@ -2240,6 +2300,7 @@ Previous: <a href="#Concept-Index" accesskey="p" rel="prev">Concept Index</a>, U
 <tr><td></td><td valign="top"><a href="#index-asn1_005fcheck_005fversion"><code>asn1_check_version</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Auxilliary-functions">Auxilliary functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fcopy_005fnode"><code>asn1_copy_node</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#ASN_002e1-field-functions">ASN.1 field functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fcreate_005felement"><code>asn1_create_element</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#ASN_002e1-field-functions">ASN.1 field functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-asn1_005fdecode_005fsimple_005fber"><code>asn1_decode_simple_ber</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fdecode_005fsimple_005fder"><code>asn1_decode_simple_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fdelete_005felement"><code>asn1_delete_element</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#ASN_002e1-field-functions">ASN.1 field functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fdelete_005fstructure"><code>asn1_delete_structure</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#ASN_002e1-field-functions">ASN.1 field functions</a></td></tr>
@@ -2258,6 +2319,7 @@ Previous: <a href="#Concept-Index" accesskey="p" rel="prev">Concept Index</a>, U
 <tr><td></td><td valign="top"><a href="#index-asn1_005fget_005fbit_005fder"><code>asn1_get_bit_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fget_005flength_005fber"><code>asn1_get_length_ber</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fget_005flength_005fder"><code>asn1_get_length_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-asn1_005fget_005fobject_005fid_005fder"><code>asn1_get_object_id_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fget_005foctet_005fder"><code>asn1_get_octet_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005fget_005ftag_005fder"><code>asn1_get_tag_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-asn1_005flength_005fder"><code>asn1_length_der</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#DER-functions">DER functions</a></td></tr>
