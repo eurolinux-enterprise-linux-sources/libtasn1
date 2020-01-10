@@ -1,7 +1,7 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	3.8
-Release:	2%{?dist}
+Release:	3%{?dist}
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+
 License:	GPLv3+ and LGPLv2+
@@ -11,7 +11,9 @@ Source0:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz
 Source1:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz.sig
 Patch1:		libtasn1-2.12-rpath.patch
 Patch2:		libtasn1-3.8-octet-string.patch
+Patch3:		libtasn1-3.8-decoding-long-oid.patch
 BuildRequires:	bison, pkgconfig
+BuildRequires:	autoconf, automake, libtool
 %ifarch %ix86 x86_64 ppc ppc64
 BuildRequires:	valgrind
 %endif
@@ -54,8 +56,10 @@ data.
 
 %patch1 -p1 -b .rpath
 %patch2 -p1 -b .octet-string
+%patch3 -p1 -b .decoding-long-oid
 
 %build
+autoreconf -v -f --install
 %configure --disable-static --disable-silent-rules
 
 make %{?_smp_mflags}
@@ -104,6 +108,9 @@ test "$1" = 0 -a -f %_infodir/%name.info.gz && \
 
 
 %changelog
+* Fri Jul  8 2016 Nikos Mavrogiannopoulos <nmav@redhat.com> - 3.8-3
+- Resolve issue which prevented the decoding of long OIDs (#1330753)
+
 * Thu Sep 04 2014 Nikos Mavrogiannopoulos <nmav@redhat.com> - 3.8-2
 - applied fix in octet string decoding
 
