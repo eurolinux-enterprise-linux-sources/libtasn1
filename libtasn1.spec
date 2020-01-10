@@ -1,7 +1,7 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	3.3
-Release:	3%{?dist}
+Release:	5%{?dist}
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+
 License:	GPLv3+ and LGPLv2+
@@ -10,6 +10,8 @@ URL:		http://www.gnu.org/software/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz
 Source1:	http://ftp.gnu.org/gnu/libtasn1/%name-%version.tar.gz.sig
 Patch1:		libtasn1-2.12-rpath.patch
+Patch2:		libtasn1-3.3-decoding.patch
+Patch3:		libtasn1-3.3-null-deref.patch
 BuildRequires:	bison, pkgconfig
 %ifarch %ix86 x86_64 ppc ppc64
 BuildRequires:	valgrind
@@ -52,6 +54,8 @@ data.
 %setup -q
 
 %patch1 -p1 -b .rpath
+%patch2 -p1 -b .der-decoding
+%patch3 -p1 -b .null-deref
 
 %build
 %configure --disable-static --disable-silent-rules
@@ -102,6 +106,12 @@ test "$1" = 0 -a -f %_infodir/%name.info.gz && \
 
 
 %changelog
+* Fri May 30 2014 Nikos Mavrogiannopoulos <nmav@redhat.com> - 3.3-5
+- Added missing check for null pointer (#1102338)
+
+* Thu May 29 2014 Nikos Mavrogiannopoulos <nmav@redhat.com> - 3.3-4
+- Fix multiple decoding issues (#1102338)
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 3.3-3
 - Mass rebuild 2014-01-24
 
